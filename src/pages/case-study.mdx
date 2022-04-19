@@ -1,3 +1,6 @@
+import hyphaArchitecture from '../images/hypha-architecture.jpg'
+import storylineLogs from '../images/storyline-logs.jpg'
+
 # Hypha Case Study
 
 ## 1. Introduction
@@ -10,6 +13,8 @@ One approach to addressing the lack of context between components is to use dist
 
 Hypha addresses this challenge by providing a telemetry pipeline that correlates trace data with log data. Hypha’s UI makes it possible to seamlessly move between the high-level view of traces and the detailed event-level view of logs, giving developers the context they need to debug effectively in a distributed system.
 
+<img src={hyphaArchitecture} />
+
 ### 1.1 Observability Concepts
 
 In the field of software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we’re going to use the following definition: “a measure of how well internal states of a system can be inferred from knowledge of its external outputs.”
@@ -20,7 +25,7 @@ For a system to be properly observable, it needs to output enough data that its 
 
 There are different types of telemetry, with the three most common being logs, metrics, and traces. These are often called the “Three Pillars” of observability. Hypha focuses primarily on logs and traces, which will be explored in more detail in the following scenario about a fictional startup.
 
-**Move to Labra:**
+<img src={storylineLogs} />
 
 **Metrics**
 
