@@ -21,8 +21,40 @@ img {
 }
 
 main {
-  width: 800px;
+  width: 740px;
+  padding: 0 20px;
   margin: 0 auto;
+}
+
+h1 {
+  font-size: 41px;
+  padding-top: 16px;
+}
+
+h2 {
+  font-size: 34px;
+  margin-top: 56px;
+}
+
+h3 {
+  font-size: 26px;
+  margin-top: 30px;
+}
+
+h4 {
+  font-size: 23px;
+  margin-top: 30px;
+}
+
+p {
+  font-size: 21px;
+  margin-top: 29px;
+}
+
+main > li {
+  font-size: 21px;
+  margin-top: 29px;
+  list-style-position: inside;
 }
 
 .nav {

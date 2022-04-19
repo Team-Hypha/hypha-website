@@ -1,18 +1,4 @@
-import Layout from "../components/layout.js"
-
 # Hypha Case Study
-
-## Outline
-
-1. Introduction (Observability concepts?)
-2. Introducing Labra Cadra
-3. Telemetry Pipeline
-4. Existing Solutions
-5. Introduce Hypha
-6. Hypha’s Architecture
-7. Engineering Challenges
-8. Future Work
-9. References
 
 ## 1. Introduction
 
@@ -26,19 +12,23 @@ Hypha addresses this challenge by providing a telemetry pipeline that correlates
 
 ### 1.1 Observability Concepts
 
-In the field of software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we’re going to use the following definition: “Observability is defined as a measure of how well internal states of a system can be inferred from knowledge of its external outputs.”
+In the field of software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we’re going to use the following definition: “a measure of how well internal states of a system can be inferred from knowledge of its external outputs.”
 
 At a fundamental level, software systems boil down to inputs and outputs. The computer takes an input, runs the software, and produces an output. The output gives insight into how the system is functioning, but what if the output is incorrect or the system is unresponsive? How can we inspect the internal state to solve the issue?
 
-For a system to be properly observable, it needs to output enough data that its internal state can be inferred. The data it outputs for this purpose is called**_telemetry_**. Code that is written to output telemetry is called**_instrumentation._** Any developer who has written a \`console.log\` statement to debug their code has instrumented their code to output telemetry data.
+For a system to be properly observable, it needs to output enough data that its internal state can be inferred. The data it outputs for this purpose is called **_telemetry_**. Code that is written to output telemetry is called **_instrumentation._** Any developer who has written a \`console.log\` statement to debug their code has instrumented their code to output telemetry data.
 
 There are different types of telemetry, with the three most common being logs, metrics, and traces. These are often called the “Three Pillars” of observability. Hypha focuses primarily on logs and traces, which will be explored in more detail in the following scenario about a fictional startup.
 
 **Move to Labra:**
 
+**Metrics**
+
+Metrics are a numerical measure that provides a snapshot of some aspect of a system’s behavior during a certain period of time. For instance, this could be requests per second, CPU or memory usage over time, or errors per minute. This data is usually visualized in a dashboard, providing a quick overview of a system’s health.
+
 **Logs**
 
-Logs are human-readable lines of text that provide specific detail about an event. These are often errors, but could be any event, for example completing a processing step. They’re great for providing fine-grained, detailed information originating from a single application.
+Logs are human-readable lines of text that provide specific detail about an event. They’re great for providing fine-grained, detailed information originating from a single application.
 
 ![](https://lh4.googleusercontent.com/kDbYaZvFJOwcAKUir8gs5HZjVb1IhE3-3Uov3he_K5t13RtZd5MHSJr_ktW3WrE6C884cbXBzK3HAoq_ySX42WLmK6fzOkseD470ehAU-2Vul3kg2qQCgN1iqd2ZCxu91jOacKho)
 
@@ -46,13 +36,17 @@ Unstructured Log
 
 **Traces**
 
-Traces provide a higher-level view when compared to logs. They show the path a request took through a system.
+- What are they in general
+- Spans
+- Time & Relationships
+
+Traces provide a higher-level view when compared to logs. They show the path a request took through a system, and they provide information about each unit of work along that path.
 
 ![](https://lh6.googleusercontent.com/fYFNN0CqHqsgffhxE_uB-WnZhaM4LDhpPOr9nt2cTmjjuLoGtGWO4MemD_tkLY1y41ZDCJt7nXglGjhkLGDAakX2UiCjO8N6XAeTxruztdzWZi7MDFA1T2_p7sTDzJlCtLX8jtdf)![](https://lh4.googleusercontent.com/HomXg9R0HqZN86_wrDZhPzi9vC21NgWXKVko79NCS0KK7JGd-QUbPwx0eWBbFkqUe6yTfIlX1VJGjlfnOppytWON7NQJxIxKuacutmXbdwDvmoaktcME96tElViZVkQGtv5WUbWh)
 
 For example, on the right we see a trace visualized as a waterfall chart.
 
-A trace is composed of spans that each represent a call to a service and the “span of time” it takes for the request to exit. The trace starts with the root span where the request entered the system (here the API gateway). From there, we can see how subsequent requests were made and the relationships between components of the system. Traces gives us a system-level view. Through traces, we get the context for how system components interact over the network.
+A trace is composed of spans, each of which represents a unit of work and the amount of time taken to complete that work. The trace starts with the root span where the request entered the system (here the API gateway). From there, the waterfall chart illustrates the relationships between subsequent requests. Traces provide context for how a given request travels through the system and for how different components in the system interact.
 
 ## Introducing Labra Cadabra
 
@@ -60,11 +54,13 @@ Labra Cadabra is a small health-tech startup company. They provide a platform fo
 
 ### Using Logs Locally
 
-Amy is a senior engineer at Labra Cadabra. Here she is working on her local computer, adding a feature to their application. She has written code that takes an input and she expects a certain output but this isn’t what is happening. Looking only at the output, it’s not obvious what’s wrong.
+Amy is a senior engineer at Labra Cadabra. Here she is working on her local computer, adding a feature to their application. She has written code that takes an input and she expects a certain output but this isn’t what is happening.When she tests the new code, she finds that a certain input is producing a different output than she expects.Looking only at the output, it’s not obvious what’s wrong.
 
 ![](https://lh3.googleusercontent.com/Tpj2yBRo7T4sAJqa1h5b7dqBQjt6EGKv06U0NBBtMrMRaX0JtzATvi5Bi3usdDlQgAAWG8VhZzwiTvLyw_ck8RjBmFV3yv4pCR97PKNc2xsWb_55qQ1jANldJV9wJ21F3GvTD7fX)
 
-She can use logging to understand why the code is behaving this way. She writes a few lines of code to output extra information she needs. In other words: she instruments her code to emit logs. And with these extra details she can pinpoint the issue and fix it.
+![](https://lh5.googleusercontent.com/haxMtlfN6GixWGlDuSm-WnhqlTkZGJX99cNnKSp4fRyF7jQnciA4OTmx7JRQ0OSat_0-Az4FeKlZlw0YV4LVZ5yCdOHjeJChuaXP5yhnHCPkmaB595PV0lpkF-qpJM2VWIPlJkjB)
+
+She can use logging to understand why the code is behaving this way. She writes a few lines of code to output the extra information she needs. In other words,: she instruments her code to emit logs. She can use these extra details to pinpoint and fix the issue. And with these extra details she can pinpoint the issue and fix it.
 
 ![](https://lh4.googleusercontent.com/uAmlwBEv9_qV4iZFEmtxJzecPLB76nEwD42fTcdn1NIL8aOmLXP1hUcFD1AeiVpKXJxnE3UrERlOM8u_NuBxxL5U6ST7u3IslUWV56ZHpWkCXulwdo1i8_finMI-kuErPohaEVQm)
 
@@ -74,36 +70,35 @@ Now that Amy has fixed the issue, her code is ready to deploy to Labra Cadabra�
 
 ### Using Logs Locally vs. In Production
 
-\*\*\* This next section needs to be fleshed out, tightened up - may need visuals that weren’t in the presentation.
+- This next section needs to be fleshed out, tightened up - may need visuals that weren’t in the presentation.
 
-In development, logs are usually output to the current process - meaning they show up on the console and are not saved anywhere. This is fine since the developer is actively watching the logs. But in production, no one is actively watching the logs - and if they were, the volume of logs would likely be overwhelming. This means in production, logs need to be stored - often to a file on the server.
+In development, logs are usually output to the console without being saved anywhere. current process - meaning they show up on the console and are not saved anywhere. This is fine since the developer is actively watching the logs. But in production, the volume of logs becomes much higher, and it becomes impractical to try and actively monitor them. no one is actively watching the logs - and if they were, the volume of logs would likely be overwhelming. This means in production, logs need to be stored, - often to a file on the server.
 
 When running locally, the developer can add logs, run the program, see the output, make code changes, and run the program again within a matter of seconds or minutes. But, to get additional logging into production, the process is much more involved and may include testing, code reviews, and deployment to the server. The feedback loop is much longer. This means that developers need to think carefully about the logs their production applications will produce. They can’t go back and replay a user’s request, so it’s important to capture the needed data the first time.
 
-This is also true of the structure and formatting of the logs. Locally, a developer doesn’t necessarily need a lot of structure to understand the logs they just wrote. But to be useful in production, logs need to have consistent structure and formatting so that anyone can read and understand.
+This is also true of the structure and formatting of the logs. Locally, a developer doesn’t necessarily need a lot of structure to understand the logs they just wrote. But to be useful in production, logs need to have consistent structure and formatting so that anyone can read and understand them.
 
 Now that Amy’s code is deployed to the server, users make requests and receive responses from the server. Amy has instrumented her code to output logs to a file on the server. When she receives a report of an error, Amy SSHs into the server and reads the log file. She can use Unix tools like \`grep\` to search the logs or \`tail\` to view the most recent logs.
 
 ![](https://lh3.googleusercontent.com/dpfDaMYUVkiHUSndcy7kHmCXOoFyoKwqHegzvsdAQYMRFXKaFHent--Vo1XITXSUMIgae_s2PIFkXQvErCGfLOZGwb0jwTZm38kWHodsm6wnou7FFO8Wu5iUgQ-Sh1TPf42l-pHf)
 
-The Labra Cadabra team \*\*\*talk about them using logs extensively – this was a little weak in the presentation \*\*\*
+The Labra Cadabra team*talk about them using logs extensively – this was a little weak in the presentation*
 
 ### Microservices
 
 As Labra Cadabra grows in complexity and the size of their engineering team, they make the decision to move to a microservice architecture. This has several benefits:
-
-\*\*\*make these benefits a little more concise\*\*\*
+_make these benefits a little more concis_
 
 - Services can scale individually with demand and this allows better resource utilization
 - Each team can focus on a service, meaning they can be responsible for a smaller codebase. They are more independent meaning they can make technology choices that are best for their service and this often speeds up development time.
 
-Of course, like everything else in software engineering, this has come with tradeoffs. \*\*\*Add a little transition/setup to get into the
+Of course, like everything else in software engineering, this has come with tradeoffs.\*Add a little transition/setup to get into the
 
 ![](https://lh3.googleusercontent.com/yIaC4afJf3AQvjyGpIPrbSloWaD5u7E8IGC_tAmtM2n4L_M5FSMUD6B7npqi8GfupUN7ZZzEtijQM8MaPEeeaTrdFDDjyb73PLtU1lQzNsxaetN3orSBRvYzxkBSFb8oZL0AHW3v)
 
 #### Log Aggregation
 
-Previously, Amy was able to SSH into one server to find the logs she needed. Now that services are separated, logs are produced in many nodes and it is tedious to SSH into each service. This slows down debugging. \*\*\*double check how Retrospect does this\*\*\* The solution to this is to aggregate logs in one place. This allows the team to find what they need in one location, making debugging quicker.
+Previously, Amy was able to SSH into one server to find the logs she needed. Now that services are separated, logs are produced in many nodes and it is tedious to SSH into each service. This slows down debugging._double check how Retrospect does thi_ The solution to this is to aggregate logs in one place. This allows the team to find what they need in one location, making debugging quicker.
 
 &lt;the following could probably be a three part animation: no logs, logs pop up, logs are aggregated>
 
@@ -115,21 +110,19 @@ This will solve the issue of having logs distributed across many nodes, but ther
 
 #### Distributed Tracing
 
-\*\*\* need some better visuals with animation - showing that there are many different possible routes through the system. This whole section needs a fair amount of reworking for prose
+- need some better visuals with animation - showing that there are many different possible routes through the system. This whole section needs a fair amount of reworking for prose
 
 ![](https://lh5.googleusercontent.com/HH0wXUckZ1IRL6RJKLnjax7bYvboUwMJEaFgJTI-cjvemXFUe1nzFqahnoYYY7sndhYtgmlnTDLGZQM7fM7zDVTlXg_84gstGvADwn3PcEChvzLXvxVTLsrSOzEtaRXrwU4eGz5H)
 
 If there is a problem with a request, how does an engineer go about determining which service is the culprit? This is especially difficult for new hires who are still learning about the system. Amy and other senior engineers have enough experience and built-up knowledge of how various requests tend to flow through the system that they often have a good idea of where to look when an issue arises. But even this is becoming more difficult as they continue to add services. They want a solution that will help everyone get context quickly.
 
-Amy and her team determine\*\*\* that distributed tracing is a great solution here because traces show the high-level overview of the execution path of a request.
+Amy and her team determin\* that distributed tracing is a great solution here because traces show the high-level overview of the execution path of a request.
 
 While the architecture diagram on the left shows the layout and connections of the system, the trace diagram on the right, shows how an individual request actually flowed through the system. Beginning at the top left, the diagram shows that the request first comes into the API gateway. Moving down and to the right the other services appear in the order that they were called, and below the service they were called by.
 
 ![](https://lh3.googleusercontent.com/qKh11fB9xAt9tZj6sM2iDbVIpqm1RodsBQQk1JzsFGWsFmrDu7qXPkuvcvfHXu5jUlxLrE1mToL9ReIPjpMoCIci7RzCdltPZ4g06klFlJA_s2wOkBj1yjovodksWA_TNrTi5Unk)
 
-&lt;diagram is very important>
-
-How will distributed tracing help Amy and her colleagues debug their distributed system? The intuitive visual summary of a request moving through the system, gives immediate context for the overall request. In addition, the visual representation of the timing\*\*\* of each span often elucidates\*\*\* problems with a request in an obvious way.
+How will distributed tracing help Amy and her colleagues debug their distributed system? The intuitive visual summary of a request moving through the system, gives immediate context for the overall request. In addition, the visual representation of the timin* of each span often elucidate* problems with a request in an obvious way.
 
 For instance, if Amy gets complaints about a delayed request to the cart service. She takes a look and most of the recent traces look something like the waterfall on the left.
 
@@ -139,13 +132,13 @@ But she then finds a few requests that look like the diagram on the right. Immed
 
 _&lt; do I need this other example? - maybe incorporate the idea into the previous example >_
 
-- _Or let’s see another example._
-- _There are reports of some errors in the analysis service and let’s say you go to investigate._
-- _A typical trace looks like the one on top, but then you discover another_
-- _Something is strange. The lab test service keeps getting called repeatedly and these spans are very short compared to the others._
-- _Once again, you now have the context needed to dive in deeper and find the root cause of the issue._
+- **Or let’s see another example.**
+- **There are reports of some errors in the analysis service and let’s say you go to investigate.**
+- **A typical trace looks like the one on top, but then you discover another**
+- **Something is strange. The lab test service keeps getting called repeatedly and these spans are very short compared to the others.**
+- **Once again, you now have the context needed to dive in deeper and find the root cause of the issue.**
 
-Amy and her team have decided to aggregate their logs and implement distributed tracing in their system. As they begin researching their options, Amy also thinks about how they will use these two types of telemetry data together in a debugging workflow \*\*\*reword. She realizes that to get the most out of both logs and traces, they will often want to go back and forth between the two. Logs contain details about specific events and traces contain a high-level picture of the execution path.
+Amy and her team have decided to aggregate their logs and implement distributed tracing in their system. As they begin researching their options, Amy also thinks about how they will use these two types of telemetry data together in a debugging workflow\*reword. She realizes that to get the most out of both logs and traces, they will often want to go back and forth between the two. Logs contain details about specific events and traces contain a high-level picture of the execution path.
 
 Going between logs and traces presents some interesting challenges. Consider the scenario where Amy is investigating a user-reported error that is occurring in the lab test service. She’s found a log that shows the error. This gives her details but she needs more context about the request that caused the error.
 
@@ -167,25 +160,13 @@ Assuming that Amy has found the trace she is looking for she would like to be ab
 
 She can search the logs for that service and filter the timestamps based on when the span occurred. But there might be dozens or hundreds of logs in that timeframe. This can make looking for the ones they want “like looking for a needle in a stack of needles”. Logs will all look the same and there’s often not a good way to differentiate
 
-If they\*\*\* have instrumented their code to include user or request data in both their traces and logs, she may also be able to use these to correlate.
+If the\* have instrumented their code to include user or request data in both their traces and logs, she may also be able to use these to correlate.
 
 The core problem is that there is rarely one single piece of data that is present in every log and every trace that Amy and her team can predictably use to correlate.
 
 <https://thenewstack.io/opentelemetry-in-go-its-all-about-context/>
 
-30
-
-- So we’ve seen there are a lot of ad hoc ways of trying to find the log or trace that we need
-- what Amy and her team would like to have is a way to seamlessly connect their log data and their trace data.
-- They need a single context that gets attached to every log and trace as it is created and will travel with a request as it moves through their system.
-- \[CLICK]
-- This will make it possible to go from a log to the associated trace and then from that trace back to all the logs that were generated in every service for that request.
--
-
-- And they’ll need a system to create the telemetry, attach the context, and then handle and use all this data.
-- So, next…
-
-#
+There are a number of ad hoc ways of correlating between logs and traces. But what Amy and her team would like to have is a way to seamlessly connect their log data and their trace data. They need a single context that gets attached to every log and trace as it is created and will travel with a request as it moves through their system. This will make it possible to go from a log to the associated trace and then from that trace back to all the logs that were generated in every service touched by that request. And they’ll need a system to create the telemetry, attach the context, and then handle and use all this data. Next we will explore what is necessary to build a telemetry pipeline that will collect, store, and make this data useful.
 
 ## Telemetry Pipeline
 
@@ -193,17 +174,19 @@ The core problem is that there is rarely one single piece of data that is presen
 
 Amy and her team are excited about the benefits that observability could give them, and they’re ready to start upgrading their system so they can get things like log aggregation, distributed tracing, and correlation between logs and traces. But what goes into building this kind of observability system?
 
-One of the major pieces they’re going to need is a telemetry pipeline that can handle their telemetry data. Let’s get an overview of the major stages that compose a telemetry pipeline so that we have a better idea of what’s involved before moving forward. We’re going to use the model outlined by Jamie Riedesel in her book*Software Telemetry*, which describes three major phases: Emitting, shipping, and presentation.
+One of the major pieces they’re going to need is a telemetry pipeline that can handle their telemetry data.
+
+In order to achieve their desired level of observability, Amy and her team will need to provision or build a telemetry pipeline.Let’s get an overview of the major stages that compose a telemetry pipeline so that we have a better idea of what’s involved before moving forward. We’re going to use the model outlined by Jamie Riedesel in her book*Software Telemetry*, which describes three major phases: Emitting, shipping, and presentation.
 
 ### Emit
 
-The emitting stage iswhere we add the code that’s responsible for generating the telemetry data that we’re going to use. As mentioned earlier, this process is also referred to as instrumentation.
+The emitting stage iswhere we instrument the code to generate and emitadd the code that’s responsible for generating the telemetry data that will flow through the rest of the systemwe’re going to use. As mentioned earlier, this process is also referred to as instrumentation.
 
-For example, to generate traces, one approach is to use an SDK from a framework like Open Telemetry. When a new request hits the service, this code is responsible for generating the data that’s needed to start tracing the journey of that request through the system.
+For example, to generate traces, one approach is to use an SDK from a framework like Open Telemetry. When a new request hits the systemservice, this code is responsible for generating the data that’s needed to start tracing the journey of that request through the system.
 
 For application logs, a common approach is to use a logging library such as Winston that generates and emits logs in a consistent, customizable format.
 
-The emitting stage is also where we prepare the telemetry data for shipping. This preparation may include formatting or enriching the data with additional information. So, the approaches taken in the emitting stage will determine the initial format and content of your telemetry data before it enters the next stage of the pipeline.
+The emitting stage is also where we prepare the telemetry data for shipping. This preparation may include formatting or enriching the data with additional information. So, the approaches taken in the emitting stage will determine the initial format and content of the your telemetry data before it enters the next stage of the pipeline.
 
 ### Ship
 
