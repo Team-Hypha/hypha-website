@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `hypha-website`,
-    siteUrl: `https://www.yourdomain.tld`,
+    title: `Hypha`,
+    siteUrl: `https://teamhypha.io`,
   },
-  plugins: [],
+  plugins: [`gatsby-plugin-mdx`],
 }
