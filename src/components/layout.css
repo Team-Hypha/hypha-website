@@ -15,6 +15,7 @@
 html {
   font-family: 'Varela Round', sans-serif;
   line-height: 1.58;
+  color: var(--black);
 }
 
 img {
@@ -58,7 +59,8 @@ main li {
   list-style-position: inside;
 }
 
-main ul li:first-child, main ol li:first-child {
+main ul li:first-child,
+main ol li:first-child {
   margin-top: 29px;
 }
 
@@ -70,12 +72,17 @@ h4 + p {
 }
 
 .nav {
-  padding: 10px;
-  height: 60px;
+  padding: 10px 30px;
+  height: 80px;
   background-color: var(--grey);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .nav__list {
+  width: 300px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -84,13 +91,12 @@ h4 + p {
 }
 
 .nav__logo {
-  width: 45px;
-  height: 45px;
+  height: 60px;
 }
 
-.nav__links {
-  width: 300px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.nav__list a {
+  color: var(--black);
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
 }
