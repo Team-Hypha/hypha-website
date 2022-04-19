@@ -7,22 +7,24 @@ export default function Layout({ children }) {
   return (
     <div>
       <header>
-        <nav>
-          <ul>
+        <nav className="nav">
+          <ul className="nav__list">
             <li>
               <Link to="/" title="Home Page">
-                <img src={logo} alt="Hypha Logo" />
+                <img src={logo} alt="Hypha Logo" className="nav__logo" />
               </Link>
             </li>
-            <li>
-              <Link to="/case-study">Case Study</Link>
-            </li>
-            <li>
-              <Link to="/team">Team</Link>
-            </li>
-            <li>
-              <a href="https://github.com">GitHub</a>
-            </li>
+            <div className='nav__links'>
+              <li>
+                <Link to="/case-study">Case Study</Link>
+              </li>
+              <li>
+                <Link to="/team">Team</Link>
+              </li>
+              <li>
+                <a href="https://github.com">GitHub</a>
+              </li>
+            </div>
           </ul>
         </nav>
       </header>
