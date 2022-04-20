@@ -1,6 +1,3 @@
-import hyphaArchitecture from '../images/hypha-architecture.jpg'
-import storylineLogs from '../images/storyline-logs.jpg'
-
 # Hypha Case Study
 
 ## 1. Introduction
@@ -13,8 +10,6 @@ One approach to addressing the lack of context between components is to use dist
 
 Hypha addresses this challenge by providing a telemetry pipeline that correlates trace data with log data. Hypha’s UI makes it possible to seamlessly move between the high-level view of traces and the detailed event-level view of logs, giving developers the context they need to debug effectively in a distributed system.
 
-<img src={hyphaArchitecture} />
-
 ### 1.1 Observability Concepts
 
 In the field of software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we’re going to use the following definition: “a measure of how well internal states of a system can be inferred from knowledge of its external outputs.”
@@ -24,8 +19,6 @@ At a fundamental level, software systems boil down to inputs and outputs. The co
 For a system to be properly observable, it needs to output enough data that its internal state can be inferred. The data it outputs for this purpose is called **_telemetry_**. Code that is written to output telemetry is called **_instrumentation._** Any developer who has written a \`console.log\` statement to debug their code has instrumented their code to output telemetry data.
 
 There are different types of telemetry, with the three most common being logs, metrics, and traces. These are often called the “Three Pillars” of observability. Hypha focuses primarily on logs and traces, which will be explored in more detail in the following scenario about a fictional startup.
-
-<img src={storylineLogs} />
 
 **Metrics**
 
@@ -440,15 +433,13 @@ Hypha provides easy deployment for the full Hypha backend within a Docker networ
 
 First, download Docker Desktop (or Docker Compose for Linux) if not already on the machine.
 
-Second, clone the \`hypha-backend\` repo.
+Second, clone the `hypha-backend` repo.
 
-Third, \`cd\` into the project root directory and run:
+Third, `cd` into the project root directory and run:
 
-\`\`\`
-
+```
 docker compose up
-
-\`\`\`
+```
 
 **Deploy with Docker ECS Integration**
 
@@ -458,35 +449,27 @@ First, download Docker Desktop (or Docker Compose for Linux), and clone the repo
 
 Second, create a new Docker ECS context:
 
-\`\`\`
-
+```
 docker context create ecs &lt;context-name>
-
-\`\`\`
+```
 
 Third, switch to your ECS context:
 
-\`\`\`
-
+```
 docker context use &lt;context-name>
-
-\`\`\`
+```
 
 Fourth, from the project root directory, deploy to ECS by running:
 
-\`\`\`
-
+```
 docker compose up
-
-\`\`\`
+```
 
 Lastly, once the deployment processes complete, retrieve your gateway collector endpoint by running:
 
-\`\`\`
-
+```
 sh get-endpoints.sh
-
-\`\`\`
+```
 
 **Set Up Instrumentation & Agent**
 
@@ -496,35 +479,27 @@ First, SSH into your VM.
 
 Second, set up the tracing instrumentation. \`cd\` into your application directory and download the Hypha instrumentation file:
 
-\`\`\`
-
+```
 curl -O https&#x3A;//raw.githubusercontent.com/Team-Hypha/hypha-agent/main/tracing.js
-
-\`\`\`
+```
 
 Then restart your Node application to include the instrumentation:
 
-\`\`\`
-
+```
 node -r tracing.js &lt;applicationfile>.js
-
-\`\`\`
+```
 
 Third, set up the agent.Download the install script:
 
-\`\`\`
-
+```
 curl -O https&#x3A;//raw.githubusercontent.com/Team-Hypha/hypha-agent/main/install.sh
-
-\`\`\`
+```
 
 Then execute it, passing in three arguments:
 
-\`\`\`
-
+```
 bash install.sh &lt;service_name> &lt;gateway_collector_endpoint> &lt;log_file_path>
-
-\`\`\`
+```
 
 ## Future Work
 
