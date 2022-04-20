@@ -19,7 +19,8 @@ html {
 }
 
 img {
-  max-width: 100%;
+  max-width: 150%;
+  transform: translateX(-16%);
 }
 
 main {
