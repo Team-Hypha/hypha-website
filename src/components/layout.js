@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "gatsby";
-import logo from "../images/hypha/hypha-graphic-color.png";
-import "./layout.css";
+import React from 'react'
+import { Link } from 'gatsby'
+import logo from '../images/hypha/hypha-graphic-color.png'
+import './layout.css'
 
 export default function Layout({ children }) {
   return (
@@ -19,7 +19,7 @@ export default function Layout({ children }) {
               <Link to="/team">Team</Link>
             </li>
             <li>
-              <a href="https://github.com" target="_blank">
+              <a href="https://github.com" target="_blank" rel="noreferrer">
                 GitHub
               </a>
             </li>
@@ -28,5 +28,5 @@ export default function Layout({ children }) {
       </header>
       <main>{children}</main>
     </div>
-  );
+  )
 }
