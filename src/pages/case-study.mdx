@@ -81,7 +81,7 @@ In production, several things change. If an issue arises, any member of the team
 
 Amy has instrumented her code to output logs to a file on the server. When she receives a report of an error, Amy SSHs into the server and reads the log file. She can use Unix tools like \`grep\` to search the logs or \`tail\` to view the most recent logs. The Labra Cadabra team invests time and effort in making sure they are logging useful information. This investment allows them to effectively debug issues when they arise.
 
-![](https://lh3.googleusercontent.com/dpfDaMYUVkiHUSndcy7kHmCXOoFyoKwqHegzvsdAQYMRFXKaFHent--Vo1XITXSUMIgae_s2PIFkXQvErCGfLOZGwb0jwTZm38kWHodsm6wnou7FFO8Wu5iUgQ-Sh1TPf42l-pHf)
+<img src="https://lh3.googleusercontent.com/dpfDaMYUVkiHUSndcy7kHmCXOoFyoKwqHegzvsdAQYMRFXKaFHent--Vo1XITXSUMIgae_s2PIFkXQvErCGfLOZGwb0jwTZm38kWHodsm6wnou7FFO8Wu5iUgQ-Sh1TPf42l-pHf" />
 
 This is also true of the structure and formatting of the logs. Locally, a developer doesn’t necessarily need a lot of structure to understand the logs they just wrote. But to be useful in production, logs need to have consistent structure and formatting so that anyone can read and understand them.
 
@@ -94,8 +94,6 @@ As Labra Cadabra grows, they make the decision to move to a microservice archite
 - Teams are more independent meaning they can make technology choices that are best for their service
 
 Of course, like everything else in software engineering, this has come with tradeoffs.
-
-![](https://lh3.googleusercontent.com/yIaC4afJf3AQvjyGpIPrbSloWaD5u7E8IGC_tAmtM2n4L_M5FSMUD6B7npqi8GfupUN7ZZzEtijQM8MaPEeeaTrdFDDjyb73PLtU1lQzNsxaetN3orSBRvYzxkBSFb8oZL0AHW3v)
 
 <img src="/labra/Labra-Distributed.jpg" />
 
@@ -113,7 +111,7 @@ This will solve the issue of having logs distributed across many nodes, but ther
 
 \*\*\* need some better visuals with animation - showing that there are many different possible routes through the system. This whole section needs a fair amount of reworking for prose
 
-![](https://lh5.googleusercontent.com/HH0wXUckZ1IRL6RJKLnjax7bYvboUwMJEaFgJTI-cjvemXFUe1nzFqahnoYYY7sndhYtgmlnTDLGZQM7fM7zDVTlXg_84gstGvADwn3PcEChvzLXvxVTLsrSOzEtaRXrwU4eGz5H)
+<img src="https://lh5.googleusercontent.com/HH0wXUckZ1IRL6RJKLnjax7bYvboUwMJEaFgJTI-cjvemXFUe1nzFqahnoYYY7sndhYtgmlnTDLGZQM7fM7zDVTlXg_84gstGvADwn3PcEChvzLXvxVTLsrSOzEtaRXrwU4eGz5H" />
 
 If there is a problem with a request, how does an engineer go about determining which service is responsible for the problem? Without context for how a request travels through the system, it can be difficult to find the source of the issue. This is especially difficult for new hires who are still learning about the system. Amy and other senior engineers have enough experience and historical context that they often have a good idea of where to look when an issue arises. But even for senior engineers, this will continue to become more difficult as the system’s complexity grows. They want a solution that will help everyone get context quickly.
 
@@ -129,11 +127,11 @@ Logs contain details about specific events, and traces contain a high-level pict
 
 Going between logs and traces presents some interesting challenges. Consider the scenario where Amy is investigating a user-reported error that is occurring in the lab test service. She’s found a log that shows the error. This gives her details but she needs more context about the request that caused the error.
 
-![](https://lh6.googleusercontent.com/4hkzV0RuWx18MC7_ferEg6Gy6D_2la049cMUipfp99p4bQlVovSWpAphm9ImsDdmiSocfM-ENq4BrJK7A_agDxtObQXUo8k4mBJOVX9PeCfyN-sAOVbJmuo6wmzQ2V9OYbNZO7Kv)
+<img src="https://lh6.googleusercontent.com/4hkzV0RuWx18MC7_ferEg6Gy6D_2la049cMUipfp99p4bQlVovSWpAphm9ImsDdmiSocfM-ENq4BrJK7A_agDxtObQXUo8k4mBJOVX9PeCfyN-sAOVbJmuo6wmzQ2V9OYbNZO7Kv" />
 
 This is a great use case for traces. The question is, how does Amy find the trace for the request that created this specific log? To demonstrate how she might do this, here is what she would need to do using the UI of a popular open-source tracing tool, Jaeger.
 
-![](https://lh4.googleusercontent.com/qTYZpTZCQMnuirjZrI9Ta-FG_q0i60q0A_tjdeHWH0IyBQ7I7r1X2OZtQ7GpM6Gt6dbFSIzZx3MhnC5UZmBQv6Fw2y5dA6SVhBC84AktKuWU_wbuGh_40Pf0XMDWu1bsxyHFUj44)![](https://lh5.googleusercontent.com/wEZ0MozlFUGdWtl2M43G-Nu90z26M_MzAdCZ5z8msAZfeVezhfqNeuC3Zak5hUJYM-v68su0IP4KmmxxyoEg5CokzTKjzKIwIM44j_-FqTcWcSENY70NG7KZg0vb7-Iz11AqSiyl)![](https://lh5.googleusercontent.com/L96kAtxt3FmLIDnqaBSxEoCiZQAg_a5dKDI62poTUBmiD_TO7E7R4zJjXEemuToUdeb_HLSJyfUKcjPkyXgFZNy5DWHk-OcERx1fsyF8Nzo6zf87wRuU6_K4ETg9tpAUt3gzglmR)![](https://lh3.googleusercontent.com/gjyD6rwF_-1lhDX_4m_Xkbxt_CEOe5ygkidtr76EIvuQqa_XyB_0-1ERrStbGRHeXkqIOa_PJR9DBu0zSiPafU2HnbGMbMhX2OdR2HRS9YE--R9l_-uvEh7Jctk9iFzIxYSTusBm)
+<img src="https://lh4.googleusercontent.com/qTYZpTZCQMnuirjZrI9Ta-FG_q0i60q0A_tjdeHWH0IyBQ7I7r1X2OZtQ7GpM6Gt6dbFSIzZx3MhnC5UZmBQv6Fw2y5dA6SVhBC84AktKuWU_wbuGh_40Pf0XMDWu1bsxyHFUj44" />
 
 The log has a timestamp, so she can set a custom time range to capture traces that are around that time. She also knows what service it came from, so she can search only traces that contain that service. She knows it was a 500 error, so she can filter by error code.
 
@@ -143,9 +141,9 @@ Assuming that Amy has found the trace she is looking for, she would like to be a
 
 &lt;visuals placeholder>
 
-![](https://lh5.googleusercontent.com/_d95rh91kEVMecUb_84_0ZVLwh7-6Tv8_fmriImS_p72atiTl7etkopkLeFW-tGn--n_ujldS3ZNJ2wdFIeNDWcPrdLl2ihAmFqUbsv7w3Yz924eHlz9lstBFrAD9IbMenFDApjt)
+<img src="https://lh5.googleusercontent.com/_d95rh91kEVMecUb_84_0ZVLwh7-6Tv8_fmriImS_p72atiTl7etkopkLeFW-tGn--n_ujldS3ZNJ2wdFIeNDWcPrdLl2ihAmFqUbsv7w3Yz924eHlz9lstBFrAD9IbMenFDApjt" />
 
-![](https://lh4.googleusercontent.com/ct0iS0R31l8EjCT_eN4_Esj-b4IC4_DbCmoLkzLRMlAIY7M090q5PDQtCOccGnI1dzE70MxwcHZeWUCSndVhB9w81KfKpf3tNVTU8mTZ-DZHsmqz-9G021JKRaLHvg2-AmKNljps)
+<img src="https://lh4.googleusercontent.com/ct0iS0R31l8EjCT_eN4_Esj-b4IC4_DbCmoLkzLRMlAIY7M090q5PDQtCOccGnI1dzE70MxwcHZeWUCSndVhB9w81KfKpf3tNVTU8mTZ-DZHsmqz-9G021JKRaLHvg2-AmKNljps" />
 
 She can search the logs for that service and filter the timestamps based on when the span occurred. But there might be dozens or hundreds of logs in that timeframe. This can make looking for the ones they want “like looking for a needle in a stack of needles” \[TY]. Logs will all look the same and there is often not an easy way to differentiate them.
 
@@ -191,7 +189,7 @@ Later on, we will take a deeper dive into each of these sections as we discuss t
 
 One place they might start is with SaaS solutions, or software as a service sold by third-party vendors.
 
-![](https://lh3.googleusercontent.com/cZkZz6TtmfnasIsm_SBb0Bf6ee7Wk3vVTPj652gChs-AygEw7PE2ffklIqTQpv07928P-xfsHuJEF2TSvjL4cqUDfNDO-Z2-x-H30z_Q8txFkAK-gr4gJSjFshbQbjJSTjF0dcdW)
+<img src="https://lh3.googleusercontent.com/cZkZz6TtmfnasIsm_SBb0Bf6ee7Wk3vVTPj652gChs-AygEw7PE2ffklIqTQpv07928P-xfsHuJEF2TSvjL4cqUDfNDO-Z2-x-H30z_Q8txFkAK-gr4gJSjFshbQbjJSTjF0dcdW" />
 
 One of the main advantages of SaaS solutions is that there’s very little setup required to use them. In most cases, a developer just has to copy instrumentation code into their applications, and the vendor takes care of all the other stages in the pipeline. They also manage that pipeline, so the developer doesn’t have to worry about deploying, scaling, or maintaining that infrastructure. Finally, these solutions come with feature-rich UIs that can handle many data types and are highly customizable.
 
@@ -203,7 +201,7 @@ Another difficulty with using SaaS solutions is that the huge feature sets can a
 
 Another approach they might look at is to use open source telemetry tools, which they could connect together to create a DIY solution.
 
-![](https://lh6.googleusercontent.com/n_S7s_jFb3FbhljSg73q0CJfXPcf3PwiPIvPFeLTfGchXzqfCvTY898xtuci4LUlvHmgyQGUKdgf2hM7-IsXO7loOQJyNuixnpTS70CjwvSqvQsbK3RkWthIPFMd56Q_ZNH6FFFQ)
+<img src="https://lh6.googleusercontent.com/n_S7s_jFb3FbhljSg73q0CJfXPcf3PwiPIvPFeLTfGchXzqfCvTY898xtuci4LUlvHmgyQGUKdgf2hM7-IsXO7loOQJyNuixnpTS70CjwvSqvQsbK3RkWthIPFMd56Q_ZNH6FFFQ" />
 
 One of the major appeals of this approach is that by using open source tools, Labra Cadabra would have control over their telemetry pipeline. They could customize it to fit their needs, and they could update and expand their pipeline as needed. Labra Cadabra would also retain data ownership, since they would own the pipeline itself.
 
@@ -211,13 +209,13 @@ But this also comes at a cost. The biggest challenge with this approach is the s
 
 Amy and her team would need to invest a huge amount of time and effort in researching these tools. First, they would need to learn which tools fit their use case for each stage of the pipeline. Then, they would need to determine which of these tools are compatible. Once they’ve decided which tools to use, they would need to configure them to match their use case and make sure the tools integrate effectively.
 
-![](https://lh4.googleusercontent.com/WZXkuZu09_MygzOLKe7-rmELyWbzWFNBcxQypfeIyoO3_0U9lTvtcE3Cb6Nwpv2ZtltI4ZcEnRFQMnwxSTCqoSe9eGcxXV08RmxfdmGVNR8xyOrmSqv2IN7TeiX9tuNOxSL11Nk8)
+<img src="https://lh4.googleusercontent.com/WZXkuZu09_MygzOLKe7-rmELyWbzWFNBcxQypfeIyoO3_0U9lTvtcE3Cb6Nwpv2ZtltI4ZcEnRFQMnwxSTCqoSe9eGcxXV08RmxfdmGVNR8xyOrmSqv2IN7TeiX9tuNOxSL11Nk8" />
 
 To review, SaaS solutions are managed and easy to set up, but the team wouldn’t have control over the code, and they wouldn’t have the data ownership they want. DIY gives them more control and ownership, but that control comes at a heavy labor cost. They’d really like to have another way, and this is where Hypha fits in.
 
 ## Introduce Hypha
 
-![](https://lh4.googleusercontent.com/2fkerhKKiAMaYQNsN1_Rmj610cQfn-5tlyS4rIn1xMsmyUNCcWZ7tAzPzi4qXwfdMtEyD5GeVvQzYWWmdBTOK0qQYtF1n5i0EPWrw91FHYDzzmiy7NVMDlHG4v9tzcFvXdyr62eU)
+<img src="https://lh4.googleusercontent.com/2fkerhKKiAMaYQNsN1_Rmj610cQfn-5tlyS4rIn1xMsmyUNCcWZ7tAzPzi4qXwfdMtEyD5GeVvQzYWWmdBTOK0qQYtF1n5i0EPWrw91FHYDzzmiy7NVMDlHG4v9tzcFvXdyr62eU" />
 
 Hypha was designed to provide the easy setup of a SaaS solution, along with the data ownership and control of a DIY approach. Hypha provides a ready-made telemetry pipeline, automates setup and deployment processes, and provides a UI that’s easy to learn and start using.
 
@@ -356,13 +354,13 @@ Remember from earlier in the presentation Amy and her team found that correlatin
 
 One option for correlating by the execution context involves replacing logs with span events. Span events are a form of structured logs appended directly to spans. Like logs, they’re for recording fine-grained events at a point in time.
 
-![](https://lh6.googleusercontent.com/mb1vSm12qATof-k9fu2j88A_Je4MOcX1XDrsPxnsG0xF495uzozkeYU7r6cNpwY0CB8XYxEaq35qnkD1j5a35kp5xj5V5OtIty-iNaT-ucs1PX_rT9liT3IK-OA-Dm60SoW1fwIH)
+<img src="https://lh6.googleusercontent.com/mb1vSm12qATof-k9fu2j88A_Je4MOcX1XDrsPxnsG0xF495uzozkeYU7r6cNpwY0CB8XYxEaq35qnkD1j5a35kp5xj5V5OtIty-iNaT-ucs1PX_rT9liT3IK-OA-Dm60SoW1fwIH" />
 
 So, instead of being separate types of telemetry, logs are appended to spans as events and directly inherit the trace context. This option has a great advantage of simplifying the telemetry pipeline architecture: We only need to collect and store traces. However this would require users to refactor their logging instrumentation to append span events instead. Also for engineers used to working with logs, this would be a fundamental change in how their tools work, since logs are now embedded in the span data structure.
 
 Another option correlating by execution context is to inject trace context into existing logs. This means accessing the trace ID and span ID and appending it as metadata to each log.
 
-![](https://lh4.googleusercontent.com/TaOx2KR-7sqv15I8-UY-zm-WpW5yPDbCcMe5oXjHUUVqq4xPJUeJYRGKuXIwZYB7k1WPF_jp_AegxmDcGVIS3LySo7_aW47nz3slMqFuCe_hGMY6IujFZcHY50gk4Fd8rKaZai4V)
+<img src="https://lh4.googleusercontent.com/TaOx2KR-7sqv15I8-UY-zm-WpW5yPDbCcMe5oXjHUUVqq4xPJUeJYRGKuXIwZYB7k1WPF_jp_AegxmDcGVIS3LySo7_aW47nz3slMqFuCe_hGMY6IujFZcHY50gk4Fd8rKaZai4V" />
 
 The pros for this approach is that if the user already has logging instrumentation, they wouldn’t need to refactor any of their code. Also if engineers like working with logs, they get to keep them.
 
@@ -448,7 +446,7 @@ curl -O https://raw.githubusercontent.com/Team-Hypha/hypha-agent/main/tracing.js
 Then restart your Node application to include the instrumentation:
 
 ```
-node -r tracing.js &lt;applicationfile>.js
+node -r tracing.js <applicationfile>.js
 ```
 
 Third, set up the agent.Download the install script:
@@ -460,7 +458,7 @@ curl -O https://raw.githubusercontent.com/Team-Hypha/hypha-agent/main/install.sh
 Then execute it, passing in three arguments:
 
 ```
-bash install.sh &lt;service_name> &lt;gateway_collector_endpoint> &lt;log_file_path>
+bash install.sh <service_name> <gateway_collector_endpoint> <log_file_path>
 ```
 
 ## Future Work
