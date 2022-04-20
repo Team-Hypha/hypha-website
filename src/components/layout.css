@@ -20,13 +20,17 @@ html {
 
 img {
   max-width: 150%;
-  transform: translateX(-16%);
+  max-height: 400px;
 }
 
 main {
   width: 740px;
   padding: 0 20px;
   margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h1 {
@@ -68,7 +72,8 @@ main ol li:first-child {
 h1 + p,
 h2 + p,
 h3 + p,
-h4 + p {
+h4 + p,
+h2 + ol {
   margin-top: 8px;
 }
 
