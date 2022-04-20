@@ -18,9 +18,11 @@ html {
   color: var(--black);
 }
 
-img {
+main img {
+  margin-top: 8px;
   max-width: 150%;
   max-height: 400px;
+  align-self: center;
 }
 
 main {
@@ -30,7 +32,6 @@ main {
 
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 h1 {
@@ -64,8 +65,8 @@ main li {
   list-style-position: inside;
 }
 
-main ul li:first-child,
-main ol li:first-child {
+main ul,
+main ol {
   margin-top: 29px;
 }
 
