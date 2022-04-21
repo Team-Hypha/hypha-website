@@ -15,32 +15,12 @@ const Headings = ({ headings }) => (
   <ul>
     {headings.map(heading => (
       <li key={heading.id}>
-        <a
-          href={`#${heading.id}`}
-          // onClick={e => {
-          //   e.preventDefault()
-          //   document.getElementById(heading.i)?.scrollIntoView({
-          //     behavior: 'smooth',
-          //   })
-          // }}
-        >
-          {heading.title}
-        </a>
+        <a href={`#${heading.id}`}>{heading.title}</a>
         {heading.items.length > 0 && (
-          <ul>
+          <ul className='table-of-contents__nested-list'>
             {heading.items.map(child => (
               <li key={child.id}>
-                <a
-                  href={`#${child.id}`}
-                  // onClick={e => {
-                  //   e.preventDefault()
-                  //   document.getElementById(child.id)?.scrollIntoView({
-                  //     behavior: 'smooth',
-                  //   })
-                  // }}
-                >
-                  {child.title}
-                </a>
+                <a href={`#${child.id}`}>{child.title}</a>
               </li>
             ))}
           </ul>

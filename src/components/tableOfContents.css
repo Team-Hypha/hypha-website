@@ -1,6 +1,7 @@
 .table-of-contents {
-  position: sticky;
-  top: 8px;
+  position: fixed;
+  top: 80px;
+  left: 20px;
 
   width: 400px;
   padding: 20px;
@@ -8,6 +9,19 @@
 
   max-height: calc(100vh - 40px);
   overflow: auto;
+}
+
+.table-of-contents__nested-list {
+  margin-left: 20px;
+}
+
+.table-of-contents li {
+  font-size: 14px;
+}
+
+.table-of-contents a {
+  text-decoration: none;
+  color: var(--black);
 }
 
 h2, h3 {
