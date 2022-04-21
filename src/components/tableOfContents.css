@@ -1,0 +1,15 @@
+.table-of-contents {
+  position: sticky;
+  top: 8px;
+
+  width: 400px;
+  padding: 20px;
+  list-style-position: inside;
+
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+}
+
+h2, h3 {
+  scroll-margin-top: 16px;
+}
