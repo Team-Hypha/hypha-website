@@ -4,6 +4,8 @@
   --black: #0c0e21;
   --grey: #f0f0f2;
   --white: #ffffff;
+  --dark-blue: #2291fa;
+  --purple: #4957F5;
 }
 
 * {
@@ -20,13 +22,7 @@ html {
 
 main {
   padding-bottom: 80px;
-}
-
-.case-study img {
-  margin-top: 8px;
-  max-width: 150%;
-  max-height: 400px;
-  align-self: center;
+  background-color: var(--grey);
 }
 
 .case-study {
@@ -38,9 +34,16 @@ main {
   flex-direction: column;
 }
 
+.case-study img {
+  margin-top: 8px;
+  max-width: 150%;
+  max-height: 400px;
+  align-self: center;
+}
+
 h1 {
   font-size: 41px;
-  padding-top: 16px;
+  margin-top: 56px;
   text-align: center;
 }
 
@@ -85,7 +88,7 @@ h2 + ol {
 .nav {
   padding: 10px 30px;
   height: 80px;
-  background-color: var(--grey);
+  background-color: var(--purple);
 
   display: flex;
   justify-content: space-between;
@@ -106,7 +109,7 @@ h2 + ol {
 }
 
 .nav__list a {
-  color: var(--black);
+  color: var(--white);
   text-decoration: none;
   font-size: 18px;
   font-weight: bold;
