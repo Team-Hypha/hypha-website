@@ -130,8 +130,6 @@ Depending on how busy that service is and how many 500 errors occurred during th
 
 Assuming that Amy has found the trace she is looking for, she would like to be able to take a look at the specific logs associated with this single request in the other services it touched. In distributed systems, the root cause of an error in one service might be an event that occurred in a different service. That service may not have even thrown an error, but there could be important details in the logs from that service. So how does she get from the trace to the logs?
 
-&lt;visuals placeholder>
-
 <img src="/storyline/Storyline_Search.GIF" />
 
 She can search the logs for that service and filter the timestamps based on when the span occurred. But there might be dozens or hundreds of logs in that timeframe. This can make looking for the ones they want “like looking for a needle in a stack of needles” \[TY]. Logs will all look the same and there is often not an easy way to differentiate them.
