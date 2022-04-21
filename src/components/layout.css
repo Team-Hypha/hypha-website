@@ -18,14 +18,18 @@ html {
   color: var(--black);
 }
 
-main img {
+main {
+  padding-bottom: 80px;
+}
+
+.case-study img {
   margin-top: 8px;
   max-width: 150%;
   max-height: 400px;
   align-self: center;
 }
 
-main {
+.case-study {
   width: 740px;
   padding: 0 20px;
   margin: 0 auto;
@@ -60,13 +64,13 @@ p {
   margin-top: 29px;
 }
 
-main li {
+.case-study li {
   font-size: 21px;
   list-style-position: inside;
 }
 
-main ul,
-main ol {
+.case-study ul,
+.case-study ol {
   margin-top: 29px;
 }
 
