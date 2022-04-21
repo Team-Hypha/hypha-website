@@ -1,7 +1,7 @@
 .table-of-contents {
   position: fixed;
-  top: 80px;
-  left: 20px;
+  top: 100px;
+  left: 70px;
 
   width: 400px;
   padding: 20px;
@@ -16,7 +16,7 @@
 }
 
 .table-of-contents li {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .table-of-contents a {
@@ -24,6 +24,30 @@
   color: var(--black);
 }
 
+.table-of-contents li.active > a {
+  font-weight: bold;
+}
+
+.table-of-contents a:hover {
+  font-weight: bold;
+}
+
+.table-of-contents li > ul {
+  display: none;
+}
+
+.table-of-contents li.active > ul {
+  display: block;
+}
+
 h2, h3 {
   scroll-margin-top: 16px;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s forwards;
+}
+
+.fadeout {
+  animation: fadeOut 0.5s forwards;
 }
