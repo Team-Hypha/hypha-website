@@ -11,10 +11,10 @@ const CaseStudyPage = () => {
       <MDXProvider
         components={{
           h2: ({ children }) => {
-            return <h2 id={children.replaceAll(' ', '-')}>{children}</h2>
+            return <h2 id={children.replaceAll(' ', '-').toLowerCase()}>{children}</h2>
           },
           h3: ({ children }) => {
-            return <h3 id={children.replaceAll(' ', '-')}>{children}</h3>
+            return <h3 id={children.replaceAll(' ', '-').toLowerCase()}>{children}</h3>
           },
         }}
       >

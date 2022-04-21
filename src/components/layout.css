@@ -18,6 +18,10 @@ html {
   color: var(--black);
 }
 
+main {
+  padding-bottom: 80px;
+}
+
 .case-study img {
   margin-top: 8px;
   max-width: 150%;

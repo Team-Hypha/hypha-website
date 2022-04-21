@@ -2,7 +2,7 @@ export default ({ children }) => <div className="case-study">{children}</div>
 
 # Hypha Case Study
 
-## 1. Introduction
+## Introduction
 
 Many applications today use distributed architectures. Distributed systems have the benefit of making systems scalable, reliable and maintainable. But with more components it becomes increasingly difficult to determine where a problem arose because we lack visibility into how requests propagate through the system.
 
@@ -12,7 +12,7 @@ One approach to addressing the lack of context between components is to use dist
 
 Hypha addresses this challenge by providing a telemetry pipeline that correlates trace data with log data. Hypha’s UI makes it possible to seamlessly move between the high-level view of traces and the detailed event-level view of logs, giving developers the context they need to debug effectively in a distributed system.
 
-### 1.1 Observability Concepts
+### Observability Concepts
 
 In the field of software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we’re going to use the following definition: “a measure of how well internal states of a system can be inferred from knowledge of its external outputs.”
 
@@ -315,9 +315,9 @@ The Hypha UI completes the final stage of our end-to-end telemetry pipeline. Thi
 
 <img src="/architecture/Hypha-Architecture.jpg" />
 
-## 7. Engineering Challenges
+## Engineering Challenges
 
-### 7.1Edit Correlating Logs With Traces
+### Edit Correlating Logs With Traces
 
 Recall that Amy and her team found that correlating logs with traces would provide many benefits to their debugging workflow. There are many approaches to consider around correlating these telemetry data types. Let’s take a closer look at some of those options, and then we’ll discuss why we chose the approach we did.
 
@@ -329,7 +329,7 @@ We could also correlate by time of execution. This approach uses timestamps, cor
 
 A third approach is to correlate by execution context.
 
-### 7.1b Correlating Logs With Traces
+### Correlating Logs With Traces
 
 #### Types of Correlation
 
