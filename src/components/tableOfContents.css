@@ -50,6 +50,10 @@
   display: block;
 }
 
+.table-of-contents ul.active {
+  display: block;
+}
+
 h2, h3 {
   scroll-margin-top: 16px;
 }

@@ -22,7 +22,11 @@ const Headings = ({ headings, setActiveId, activeId }) => (
           {heading.title}
         </a>
         {heading.items.length > 0 && (
-          <ul className="table-of-contents__nested-list">
+          <ul
+            className={`table-of-contents__nested-list ${
+              heading.items.some(child => child.id === activeId) ? 'active' : ''
+            }`}
+          >
             {heading.items.map(child => (
               <li key={child.id} className={child.id === activeId ? 'active' : ''}>
                 <a href={`#${child.id}`} onClick={() => setActiveId(heading.id)}>
@@ -96,7 +100,7 @@ const useIntersectionObserver = (setActiveId, location) => {
 
     const observer = new IntersectionObserver(callback)
 
-    const headingElements = Array.from(document.querySelectorAll('h2'))
+    const headingElements = Array.from(document.querySelectorAll('h2, h3'))
 
     headingElements.forEach(element => observer.observe(element))
 
