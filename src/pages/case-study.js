@@ -4,10 +4,10 @@ import TableOfContents from '../components/tableOfContents'
 import { MDXProvider } from '@mdx-js/react'
 import CaseStudy from '../components/caseStudy.mdx'
 
-const CaseStudyPage = () => {
+const CaseStudyPage = ({ location }) => {
   return (
     <Layout>
-      <TableOfContents />
+      <TableOfContents location={location} />
       <MDXProvider
         components={{
           h2: ({ children }) => {
