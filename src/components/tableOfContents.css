@@ -9,6 +9,16 @@
 
   max-height: calc(100vh - 40px);
   overflow: auto;
+
+  transition: 0.3s all ease-in-out;
+}
+
+.show {
+  opacity: 1;
+}
+
+.hide {
+  opacity: 0.00;
 }
 
 .table-of-contents__nested-list {
@@ -42,12 +52,4 @@
 
 h2, h3 {
   scroll-margin-top: 16px;
-}
-
-.fade-in {
-  animation: fadeIn 0.5s forwards;
-}
-
-.fadeout {
-  animation: fadeOut 0.5s forwards;
 }

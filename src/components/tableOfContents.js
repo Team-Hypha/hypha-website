@@ -5,9 +5,10 @@ export default function TableOfContents({ location }) {
   const [activeId, setActiveId] = useState()
   const { nestedHeadings } = useHeadingsData()
   useIntersectionObserver(setActiveId, location)
+  const isScroll = useScrollHandler()
 
   return (
-    <nav aria-label="Table of contents" className="table-of-contents">
+    <nav aria-label="Table of contents" className={`table-of-contents ${isScroll ? 'show' : 'hide'}`}>
       <Headings headings={nestedHeadings} setActiveId={setActiveId} activeId={activeId} />
     </nav>
   )
@@ -104,4 +105,25 @@ const useIntersectionObserver = (setActiveId, location) => {
       headingElementsRef.current = {}
     }
   }, [setActiveId, location])
+}
+
+export const useScrollHandler = () => {
+  const [scroll, setScroll] = useState(1)
+
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollCheck = window.scrollY > 120
+      if (scrollCheck !== scroll) {
+        setScroll(scrollCheck)
+      }
+    }
+
+    document.addEventListener('scroll', onScroll)
+
+    return () => {
+      document.removeEventListener('scroll', onScroll)
+    }
+  }, [scroll, setScroll])
+
+  return scroll
 }
