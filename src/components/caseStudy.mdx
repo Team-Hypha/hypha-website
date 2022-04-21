@@ -72,7 +72,7 @@ In production, several things change. If an issue arises, any member of the team
 
 Amy has instrumented her code to output logs to a file on the server. When she receives a report of an error, Amy SSHs into the server and reads the log file. She can use Unix tools like \`grep\` to search the logs or \`tail\` to view the most recent logs. The Labra Cadabra team invests time and effort in making sure they are logging useful information. This investment allows them to effectively debug issues when they arise.
 
-<img src="storyline/Storyline_Using-Logs-Production.GIF" />
+<img src="/storyline/Storyline_Using-Logs-Production.GIF" />
 
 This is also true of the structure and formatting of the logs. Locally, a developer doesn’t necessarily need a lot of structure to understand the logs they just wrote. But to be useful in production, logs need to have consistent structure and formatting so that anyone can read and understand them.
 
@@ -180,7 +180,7 @@ Later on, we will take a deeper dive into each of these sections as we discuss t
 
 One place they might start is with SaaS solutions, or software as a service sold by third-party vendors.
 
-<img src="solutions/Existing-Solutions_SaaS.jpg" />
+<img src="/solutions/Existing-Solutions_SaaS.jpg" />
 
 One of the main advantages of SaaS solutions is that there’s very little setup required to use them. In most cases, a developer just has to copy instrumentation code into their applications, and the vendor takes care of all the other stages in the pipeline. They also manage that pipeline, so the developer doesn’t have to worry about deploying, scaling, or maintaining that infrastructure. Finally, these solutions come with feature-rich UIs that can handle many data types and are highly customizable.
 
@@ -192,7 +192,7 @@ Another difficulty with using SaaS solutions is that the huge feature sets can a
 
 Another approach they might look at is to use open source telemetry tools, which they could connect together to create a DIY solution.
 
-<img src="solutions/Existing-Solutions_DIY.jpg" />
+<img src="/solutions/Existing-Solutions_DIY.jpg" />
 
 One of the major appeals of this approach is that by using open source tools, Labra Cadabra would have control over their telemetry pipeline. They could customize it to fit their needs, and they could update and expand their pipeline as needed. Labra Cadabra would also retain data ownership, since they would own the pipeline itself.
 
