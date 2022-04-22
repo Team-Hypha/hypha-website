@@ -1,0 +1,121 @@
+.case-study__grid {
+  display: grid;
+  width: 100vw;
+  grid-template-columns: 0.20fr 0.80fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-content: center;
+}
+
+.case-study__grid__left {
+  grid-column: 1;
+}
+
+.case-study__grid__right {
+  grid-column: 2;
+}
+
+.case-study {
+  max-width: 770px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.case-study img {
+  max-width: 100%;
+  max-height: 400px;
+}
+
+.case-study__image-background {
+  align-self: center;
+  margin-top: 8px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.case-study li {
+  font-size: 21px;
+  list-style-position: inside;
+}
+
+.case-study ul,
+.case-study ol {
+  margin-top: 29px;
+}
+
+.case-study code {
+  /* wrap lines */
+  white-space: pre-wrap;
+}
+
+h2,
+h3,
+h4,
+h5 {
+  border-bottom: 1px solid #b9c1cb;
+  margin-bottom: 8px;
+}
+
+h1 {
+  font-size: 55px;
+  margin-top: 56px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 37px;
+  margin-top: 50px;
+}
+
+h3 {
+  font-size: 26px;
+  margin-top: 30px;
+}
+
+h4 {
+  font-size: 23px;
+  margin-top: 30px;
+}
+
+p {
+  font-size: 21px;
+  margin-top: 29px;
+}
+
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h2 + ol {
+  margin-top: 8px;
+}
+
+@media screen and (max-width: 1400px) {
+  .case-study__grid {
+    grid-template-columns: 0.25fr 0.75fr;
+  }
+  .case-study {
+    max-width: 700px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .case-study__grid {
+    grid-template-columns: 0.30fr 0.70fr;
+  }
+  .case-study {
+    max-width: 650px;
+  }
+}
+
+/* 0 - 600px:      Phone
+600 - 900px:    Tablet portrait
+900 - 1200px:   Tablet landscape
+[1200 - 1800] is where our normal styles apply
+1800px + :      Big desktop */

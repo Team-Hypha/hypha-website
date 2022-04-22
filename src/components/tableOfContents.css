@@ -1,9 +1,9 @@
 .table-of-contents {
   position: fixed;
   top: 100px;
-  left: 70px;
+  left: 5vw;
 
-  width: 400px;
+  width: 500px;
   padding: 20px;
   list-style-position: inside;
 
@@ -13,20 +13,12 @@
   transition: 0.3s all ease-in-out;
 }
 
-.show {
-  opacity: 1;
-}
-
-.hide {
-  opacity: 0.00;
-}
-
 .table-of-contents__nested-list {
-  margin-left: 20px;
+  margin-left: 29px;
 }
 
 .table-of-contents li {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .table-of-contents a {
@@ -54,6 +46,37 @@
   display: block;
 }
 
-h2, h3 {
+.show {
+  opacity: 1;
+}
+
+.hide {
+  opacity: 0;
+}
+
+h2,
+h3 {
   scroll-margin-top: 16px;
+}
+
+@media screen and (max-width: 1400px) {
+  .table-of-contents {
+    left: 3vw;
+    width: 350px;
+  }
+
+  .table-of-contents li {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .table-of-contents {
+    left: 1.5vw;
+    width: 300px;
+  }
+
+  .table-of-contents li {
+    font-size: 14px;
+  }
 }
