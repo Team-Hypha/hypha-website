@@ -118,7 +118,7 @@ const useIntersectionObserver = (setActiveId, location) => {
 }
 
 export const useScrollHandler = () => {
-  const [scroll, setScroll] = useState(1)
+  const [scroll, setScroll] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
