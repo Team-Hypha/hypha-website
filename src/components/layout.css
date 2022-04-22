@@ -5,7 +5,7 @@
   --grey: #f0f0f2;
   --white: #ffffff;
   --dark-blue: #2291fa;
-  --purple: #4957F5;
+  --purple: #4957f5;
 }
 
 * {
@@ -41,14 +41,19 @@ main {
   align-self: center;
 }
 
+h2, h3, h4, h5 {
+  border-bottom: 1px solid #b9c1cb;
+  margin-bottom: 8px;
+}
+
 h1 {
-  font-size: 41px;
+  font-size: 46px;
   margin-top: 56px;
   text-align: center;
 }
 
 h2 {
-  font-size: 34px;
+  font-size: 37px;
   margin-top: 56px;
 }
 
