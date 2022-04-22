@@ -18,11 +18,11 @@ html {
   font-family: 'Varela Round', sans-serif;
   line-height: 1.58;
   color: var(--black);
+  background-color: var(--grey);
 }
 
 main {
   padding-bottom: 80px;
-  background-color: var(--grey);
 }
 
 .nav {
