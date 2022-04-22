@@ -6,6 +6,7 @@
   --white: #ffffff;
   --dark-blue: #2291fa;
   --purple: #4957f5;
+  --green: #83D885;
 }
 
 * {
@@ -22,7 +23,7 @@ html {
 }
 
 main {
-  padding-bottom: 80px;
+  padding-bottom: 30px;
 }
 
 .nav {
