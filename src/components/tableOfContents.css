@@ -80,3 +80,57 @@ h3 {
     font-size: 14px;
   }
 }
+
+@media screen and (max-width: 900px) {
+  .table-of-contents {
+    display: none;
+  }
+}
+
+.table-of-contents--inline {
+  display: block;
+}
+
+.table-of-contents--inline__nested-list {
+  margin-left: 29px;
+}
+
+.table-of-contents--inline li {
+  font-size: 18px;
+}
+
+.table-of-contents--inline a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+.table-of-contents--inline li.active > a {
+  font-weight: bold;
+}
+
+.table-of-contents--inline a:hover {
+  font-weight: bold;
+}
+
+.table-of-contents--inline li > ul {
+  margin-top: 0;
+  display: none;
+}
+
+.table-of-contents--inline li.active > ul {
+  display: block;
+}
+
+.table-of-contents--inline ul.active {
+  display: block;
+}
+
+.show-tablet {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .show-tablet {
+    display: block;
+  }
+}

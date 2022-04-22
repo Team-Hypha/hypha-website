@@ -9,10 +9,10 @@ const CaseStudyPage = ({ location }) => {
   return (
     <Layout>
       <div className="case-study__grid">
-        <div className="case-study__grid__left">
+        <div>
           <TableOfContents location={location} />
         </div>
-        <div className="case-study__grid__right">
+        <div>
           <MDXProvider
             components={{
               h2: ({ children }) => {
@@ -29,6 +29,7 @@ const CaseStudyPage = ({ location }) => {
                 )
               },
             }}
+            location={location}
           >
             <CaseStudy />
           </MDXProvider>

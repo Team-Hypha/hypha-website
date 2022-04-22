@@ -1,22 +1,15 @@
 .case-study__grid {
   display: grid;
   width: 100vw;
-  grid-template-columns: 0.20fr 0.80fr;
+  grid-template-columns: 0.10fr 0.90fr;
   grid-template-rows: 1fr;
   align-items: center;
   justify-content: center;
 }
 
-.case-study__grid__left {
-  grid-column: 1;
-}
-
-.case-study__grid__right {
-  grid-column: 2;
-}
-
 .case-study {
   max-width: 770px;
+  padding: 10px;
   margin: 0 auto;
 
   display: flex;
@@ -96,10 +89,13 @@ h2 + ol {
   margin-top: 8px;
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1700px) {
   .case-study__grid {
     grid-template-columns: 0.25fr 0.75fr;
   }
+}
+
+@media screen and (max-width: 1400px) {
   .case-study {
     max-width: 700px;
   }
@@ -113,6 +109,21 @@ h2 + ol {
     max-width: 650px;
   }
 }
+
+@media screen and (max-width: 900px) {
+  .table-of-contents {
+    display: none;
+  }
+
+  .case-study__grid {
+    grid-template-columns: 0fr 1fr;
+  }
+
+  .case-study {
+    max-width: 90vw;
+  }
+}
+
 
 /* 0 - 600px:      Phone
 600 - 900px:    Tablet portrait

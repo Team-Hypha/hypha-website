@@ -1,14 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
 import './tableOfContents.css'
 
-export default function TableOfContents({ location }) {
+export default function TableOfContents({ location, type }) {
   const [activeId, setActiveId] = useState()
   const { nestedHeadings } = useHeadingsData()
   useIntersectionObserver(setActiveId, location)
   const isScroll = useScrollHandler()
 
+  const tocType = type === 'inline' ? 'table-of-contents--inline' : 'table-of-contents'
+  const inlineType = type === 'inline'
+
   return (
-    <nav aria-label="Table of contents" className={`table-of-contents ${isScroll ? 'show' : 'hide'}`}>
+    <nav
+      aria-label="Table of contents"
+      className={`${tocType} ${inlineType ? '' : isScroll ? 'show' : 'hide'} ${inlineType ? 'show-tablet' : ''}`}
+    >
       <Headings headings={nestedHeadings} setActiveId={setActiveId} activeId={activeId} />
     </nav>
   )
