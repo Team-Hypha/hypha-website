@@ -16,6 +16,13 @@ const CaseStudyPage = ({ location }) => {
           h3: ({ children }) => {
             return <h3 id={children.replaceAll(' ', '-').toLowerCase()}>{children}</h3>
           },
+          img: ({ src, alt }) => {
+            return (
+              <div className="case-study__image-background">
+                <img src={src} alt="placeholder" />
+              </div>
+            )
+          },
         }}
       >
         <CaseStudy />
