@@ -31,7 +31,7 @@ const TeamPage = () => {
                       </div>
                       <ul className="team-member-icons">
                         <li>
-                          <a href="mailto:hello@katherinebeck.me" target="_blank">
+                          <a href="mailto:hello@gontzess@gmail.com" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
@@ -43,7 +43,7 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="http://katherinebeck.me" target="_blank">
+                          <a href="http://katherinebeck.me" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg
                                 width="24"
@@ -61,7 +61,7 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="https://www.linkedin.com/in/katherine-m-beck/" target="_blank">
+                          <a href="https://www.linkedin.com/in/stephengontzes/" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
@@ -82,7 +82,7 @@ const TeamPage = () => {
                       </div>
                       <ul className="team-member-icons">
                         <li>
-                          <a href="mailto:lgarrison1023@gmail.com" target="_blank">
+                          <a href="mailto:isaakkraut@gmail.com" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
@@ -94,7 +94,7 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="https://leahgarrison.com" target="_blank">
+                          <a href="https://leahgarrison.com" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg
                                 width="24"
@@ -112,7 +112,11 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="https://www.linkedin.com/in/leahgarrison/" target="_blank">
+                          <a
+                            href="https://www.linkedin.com/in/isaak-krautwurst-49a38014a/"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
                             <span className="team-member-icon">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
@@ -133,7 +137,7 @@ const TeamPage = () => {
                       </div>
                       <ul className="team-member-icons">
                         <li>
-                          <a href="mailto:hello@rickmole.dev" target="_blank">
+                          <a href="mailto:jrkeller@gmail.com" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
@@ -145,7 +149,7 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="https://rickmole.dev" target="_blank">
+                          <a href="https://rickmole.dev" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg
                                 width="24"
@@ -163,7 +167,11 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="https://www.linkedin.com/in/rick-mole/" target="_blank">
+                          <a
+                            href="https://www.linkedin.com/in/joshua-keller-30888b3b/"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
                             <span className="team-member-icon">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
@@ -184,7 +192,7 @@ const TeamPage = () => {
                       </div>
                       <ul className="team-member-icons">
                         <li>
-                          <a href="mailto:adampeterson.tech@gmail.com" target="_blank">
+                          <a href="mailto:iuliu.laurentiu.pop@protonmail.com" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
@@ -196,7 +204,7 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="https://adampeterson.tech" target="_blank">
+                          <a href="https://iulspop.dev" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg
                                 width="24"
@@ -214,7 +222,7 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="https://www.linkedin.com/in/adam-peterson-211a1041/" target="_blank">
+                          <a href="https://www.linkedin.com/in/iulspop/" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
