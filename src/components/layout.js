@@ -19,7 +19,7 @@ export default function Layout({ children }) {
               <Link to="/team">Team</Link>
             </li>
             <li>
-              <a href="https://github.com" target="_blank" rel="noreferrer">
+              <a href="https://github.com/Team-Hypha" target="_blank" rel="noreferrer">
                 GitHub
               </a>
             </li>
