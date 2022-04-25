@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Layout from '../components/layout'
 import { Link } from 'gatsby'
+import { StaticImage } from 'gatsby-plugin-image'
 import './index.css'
 
 const IndexPage = () => {
@@ -22,9 +23,11 @@ const IndexPage = () => {
                   <div className="primary-button-text">Read Case Study</div>
                 </Link>
               </div>
-              <img
-                src="screenshots/trace-and-logs.png"
+              <StaticImage
+                src="../images/screenshots/trace-and-logs.png"
                 alt="Screenshot of Hypha's interface with a trace and logs correlated."
+                placeholder="blurred"
+                loading="eager"
                 className="screenshot"
               />
             </div>
@@ -62,10 +65,12 @@ const IndexPage = () => {
                       </a>
                     </div>
                     <div className="tab-image-wrap">
-                      <img
-                        src="/architecture/Hypha-Architecture.jpg"
+                      <StaticImage
+                        src="../images/architecture/Hypha-Architecture.jpg"
                         alt="Hypha architecture diagram"
-                        className="side-image"
+                        placeholder="blurred"
+                        loading="eager"
+                        imgClassName="side-image"
                       />
                     </div>
                   </div>

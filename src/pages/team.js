@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Layout from '../components/layout'
+import { StaticImage } from 'gatsby-plugin-image'
 import './team.css'
 
 const TeamPage = () => {
@@ -24,7 +25,14 @@ const TeamPage = () => {
                 <div>
                   <div className="team-grid">
                     <div className="team-member-wrap">
-                      <img src="/team/stephen.jpg" loading="lazy" alt="" className="team-member-image" />
+                      <StaticImage
+                        src="../images/team/stephen.jpg"
+                        alt="Portrait picture of Stephen Gontzes"
+                        placeholder="blurred"
+                        className="image-container"
+                        loading="eager"
+                        imgClassName="team-member-image"
+                      />
                       <div className="team-member-info">
                         <div className="team-member-name">Stephen Gontzes</div>
                         <div className="team-member-location">Philadelphia, PA</div>
@@ -75,7 +83,14 @@ const TeamPage = () => {
                       </ul>
                     </div>
                     <div className="team-member-wrap">
-                      <img src="/team/isaak.jpg" loading="lazy" alt="" className="team-member-image" />
+                      <StaticImage
+                        src="../images/team/isaak.jpg"
+                        alt="Portrait picture of Isaak Krautwurst"
+                        placeholder="blurred"
+                        className="image-container"
+                        loading="eager"
+                        imgClassName="team-member-image"
+                      />
                       <div className="team-member-info">
                         <div className="team-member-name">Isaak Krautwurst</div>
                         <div className="team-member-location">Chicago, IL</div>
@@ -130,7 +145,16 @@ const TeamPage = () => {
                       </ul>
                     </div>
                     <div className="team-member-wrap">
-                      <img src="/team/josh.jpg" loading="lazy" alt="" className="team-member-image" />
+                      <StaticImage
+                        src="../images/team/josh.jpg"
+                        alt="Portrait picture of Joshua Keller"
+                        placeholder="blurred"
+                        className="image-container"
+                        loading="eager"
+                        imgClassName="team-member-image"
+                        width={800}
+                        height={800}
+                      />
                       <div className="team-member-info">
                         <div className="team-member-name">Joshua Keller</div>
                         <div className="team-member-location">Kalamazoo, MI</div>
@@ -185,7 +209,14 @@ const TeamPage = () => {
                       </ul>
                     </div>
                     <div className="team-member-wrap">
-                      <img src="/team/iuliu.jpg" loading="lazy" alt="" className="team-member-image" />
+                      <StaticImage
+                        src="../images/team/iuliu.jpg"
+                        alt="Portrait picture of Iuliu Pop"
+                        placeholder="blurred"
+                        className="image-container"
+                        loading="eager"
+                        imgClassName="team-member-image"
+                      />
                       <div className="team-member-info">
                         <div className="team-member-name">Iuliu Pop</div>
                         <div className="team-member-location">Montreal, Canada</div>

@@ -445,3 +445,7 @@
     padding-bottom: 0px;
   }
 }
+
+.team-page .image-container {
+  border-radius: 100%;
+}

@@ -3,5 +3,5 @@ module.exports = {
     title: `Hypha`,
     siteUrl: `https://teamhypha.io`,
   },
-  plugins: [`gatsby-plugin-mdx`],
+  plugins: [`gatsby-plugin-image`, `gatsby-plugin-sharp`, `gatsby-plugin-mdx`],
 }
