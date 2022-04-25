@@ -31,7 +31,7 @@ const TeamPage = () => {
                       </div>
                       <ul className="team-member-icons">
                         <li>
-                          <a href="mailto:hello@gontzess@gmail.com" target="_blank" rel="noreferrer">
+                          <a href="mailto:gontzess@gmail.com" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
@@ -43,7 +43,7 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="http://katherinebeck.me" target="_blank" rel="noreferrer">
+                          <a href="https://stephengontzes.io/" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg
                                 width="24"
@@ -94,7 +94,7 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="https://leahgarrison.com" target="_blank" rel="noreferrer">
+                          <a href="https://idkraut.github.io" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg
                                 width="24"
@@ -149,7 +149,7 @@ const TeamPage = () => {
                           </a>
                         </li>
                         <li>
-                          <a href="https://rickmole.dev" target="_blank" rel="noreferrer">
+                          <a href="https://joshkeller.dev" target="_blank" rel="noreferrer">
                             <span className="team-member-icon">
                               <svg
                                 width="24"
