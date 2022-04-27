@@ -21,9 +21,9 @@ const CaseStudyPage = ({ location }) => {
               h3: ({ children }) => {
                 return <h3 id={children.replaceAll(' ', '-').toLowerCase()}>{children}</h3>
               },
-              img: ({ src, alt, caption, noBackground, small }) => {
+              img: ({ src, alt, caption, noBackground, small, big }) => {
                 return (
-                  <figure>
+                  <figure className={big && 'big'}>
                     {!noBackground ? (
                       <div className="case-study__image-background">
                         <img src={src} alt="placeholder" />

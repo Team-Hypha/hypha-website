@@ -18,7 +18,7 @@ Together, these data types can provide a lot of context about a distributed syst
 
 Hypha is an open-source observability framework for distributed systems that combines the context of traces with the detail of logs.
 
-<img src="/hypha/trace-and-logs.png" caption="Hypha UI connects logs and traces using Grafana" />
+<img src="/hypha/trace-and-logs.png" big={true} caption="Hypha UI connects logs and traces using Grafana" />
 
 Hypha deploys an end-to-end telemetry pipeline that sets up distributed tracing, aggregates existing logs, and correlates logs with traces. This facilitates a powerful debugging workflow using Hypha’s simple UI.
 
@@ -226,7 +226,7 @@ To review, SaaS solutions are managed and easy to set up, but the team wouldn’
 
 Hypha was designed to combine the easy setup of a SaaS solution with the data ownership and control of a DIY approach.
 
-<img src="/solutions/comparison-table-with-hypha.png" />
+<img src="/solutions/comparison-table-with-hypha.png" big={true} />
 
 Hypha provides a ready-made telemetry pipeline, it automates setup and deployment processes, and it provides a UI that’s easy to learn and start using. It’s powered by Grafana, but packaged in a streamlined and pre-configured interface.
 
@@ -236,15 +236,15 @@ A tradeoff is that Hypha isn’t as feature-rich as the SaaS solutions. But this
 
 The home page visualizes error metrics by service, allowing users to quickly assess the health of their system and start investigating problematic logs.
 
-<img src="/hypha/errors-dashboard.png" className="big-image" />
+<img src="/hypha/errors-dashboard.png" className="big-image" big={true} />
 
 Users can click into their logs to see expanded detail, and this expanded view includes a “Jaeger'' button that allows them to jump to the trace associated with that log.
 
-<img src="/hypha/log-to-trace.gif" />
+<img src="/hypha/log-to-trace.gif" big={true} />
 
 The trace overview displays a waterfall chart representing the trace and its spans. Users can click into a span to see its expanded attributes along with a “Logs for this span" button.
 
-<img src="/hypha/trace-to-log.gif" />
+<img src="/hypha/trace-to-log.gif" big={true} />
 
 Clicking this button opens a side window that displays the logs associated with that span. This provides users with immediate access to the detailed information provided by relevant logs, making it easier to continue investigating and debugging.
 
@@ -254,7 +254,7 @@ Hypha saves developers the toil of setting up this kind of solution with a DIY a
 
 ## 8. Hypha’s Architecture
 
-<img src="/architecture/Hypha-Architecture.jpg" />
+<img src="/architecture/Hypha-Architecture.jpg" big={true} />
 
 ### 8.1 Emit
 
@@ -289,13 +289,13 @@ In addition to providing us with trace generation, the auto-instrumentation libr
 
 At this stage of the architecture, Hypha has instrumented traces and logs, and this telemetry data is correlated through trace context.
 
-<img src="/architecture/Hypha-Instrumentation-Middle.jpg" />
+<img src="/architecture/Hypha-Instrumentation-Middle.jpg" big={true} />
 
 Now Hypha needs to send this telemetry data to the next pipeline phase.
 
 For traces, we could configure the auto-instrumentation to send trace data directly to the next stage in the pipeline, but there are advantages to offloading this responsibility from the main application. For instance, this would enable us to perform processing on the traces and to batch the data, making for more efficient network usage. For this reason, we configure the instrumentation code to send traces to an OpenTelemetry Agent Collector. The Agent Collector runs as a separate binary on the same host as the instrumented application.
 
-<img src="/architecture/Hypha-Instrumentation-After.jpg" />
+<img src="/architecture/Hypha-Instrumentation-After.jpg" big={true} />
 
 For logs, there are several approaches Hypha could take for collection and processing. The most direct way would be to have developers change their application code to send logs straight to the Agent Collector. However, we wanted Hypha to require minimal changes to existing application code. We chose to use the OpenTelemetry filelog receiver with the Agent Collector, which scrapes logs from existing files. While this option is not as fully-featured as some other solutions such as FluentBit, we wanted to reduce the dependencies needed at this stage, so we use one Agent Collector to handle both logs and traces.
 
@@ -316,7 +316,7 @@ We also wanted these tools to be flexible and scalable to handle future changes.
 
 Hypha uses the OpenTelemetry Collector deployed as a central Gateway to handle aggregation, processing, and exporting.
 
-<img src="/architecture/Hypha-Collect.jpg" />
+<img src="/architecture/Hypha-Collect.jpg" big={true} />
 
 This approach provides many benefits. OpenTelemetry is quickly becoming the gold standard for telemetry data, and it already integrates well with most observability tools. This helps give developers the flexibility to easily change tools if needed. For example, if a developer wants to export their trace data to a different tool, they can simply change a few lines of code in their Gateway configuration. Having a central gateway also makes it easier to configure data enrichment and processing from one place.
 
@@ -324,7 +324,7 @@ This approach provides many benefits. OpenTelemetry is quickly becoming the gold
 
 Production applications can produce a massive amount of telemetry data, so Hypha’s storage solutions should be able to handle high throughput. They need to write data quickly and should be able to scale. Hypha uses different solutions for logs and traces to separate concerns and provide flexibility.
 
-<img src="/architecture/Hypha-Store.jpg" />
+<img src="/architecture/Hypha-Store.jpg" big={true} />
 
 For logs, Hypha uses Grafana Loki. Loki is designed to index logs by key-value pairs called labels. Indexing this way makes Loki cheaper to operate than a full index and enables it to handle high log volumes efficiently. Additionally, we needed a solution that would work well with Grafana, which we chose to power Hypha’s UI. Because Loki is part of Grafana labs, it integrates well with Grafana and is well-suited to the way that Grafana handles telemetry linking.
 
@@ -345,7 +345,7 @@ One possibility was to create our custom UI to handle querying and visualization
 
 Another option was to use Grafana, a powerful open-source tool capable of querying and visualizing data from many different sources. However, a downside to using Grafana is that its extensive feature set can be difficult to learn, configure, and start using.
 
-<img src="/architecture/Hypha-Present.jpg" />
+<img src="/architecture/Hypha-Present.jpg" big={true} />
 
 We developed the Hypha UI to address this challenge. It wraps Grafana in an intuitive, focused interface and provides customized dashboards. Developers can get started quickly without a steep learning curve while maintaining access to Grafana’s powerful features.
 
@@ -353,7 +353,7 @@ Hypha leverages Grafana to proxy API calls to both Loki and Jaeger data sources.
 
 The Hypha UI completes the final stage of our end-to-end telemetry pipeline.
 
-<img src="/architecture/Hypha-Architecture.jpg" />
+<img src="/architecture/Hypha-Architecture.jpg" big={true} />
 
 ## 9. Implementation Challenges
 
@@ -411,7 +411,7 @@ One option to implement trace context injection was to create a custom library t
 
 In the presentation phase of the pipeline, the ability to correlate logs and traces visually was also a major consideration. Although the data needed for correlation was added in the emit stage, we now needed to leverage that data so that users could move between logs and traces in the UI. This was a major factor in choosing Grafana, which supports the functionality needed to transform correlated telemetry data to visual interaction.
 
-### 9.2 Deploying to ECS & Configuring For Production
+### 9.2 Deployment
 
 One of our primary design goals was for Hypha to be easy to deploy. To meet this goal, Hypha needed to be platform agnostic, scalable and automated as much as possible.
 
@@ -427,13 +427,13 @@ To start, we made sure developers could easily deploy Hypha’s backend locally,
 
 Both Loki and Jaeger can run as “all-in-one" configurations, where a single binary handles read, write, storage and visualization responsibilities. This is fine for local development, but we wanted a solution that would allow these services to scale at a production level.
 
-<img src="/architecture/Hypha-Ship-Scalable.jpg" />
+<img src="/architecture/Hypha-Ship-Scalable.jpg" big={true} />
 
 We opted to separate read, write, and storage concerns into three services running as individual containers. Compared to the “all-in-one" deployment configuration, this allows for higher availability and the flexibility to independently scale nodes as needed. For example, the Loki configuration can now scale to ingest several TBs of logs per day, whereas previously, it was limited to approximately 100GB per day (reference[here](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode)).
 
 With Hypha’s components ready to scale, we began exploring options for cloud deployment. We chose AWS Elastic Container Service, a popular platform that integrates well with Docker Compose. It manages many aspects of containerized applications, such as network communication and resource scaling.
 
-<img src="/architecture/Hypha-Architecture-Fargate.jpg" />
+<img src="/architecture/Hypha-Architecture-Fargate.jpg" big={true} />
 
 ECS can be configured to run on user-managed AWS EC2 instances or via AWS Fargate, a managed serverless solution for running containers in the cloud. While deploying to EC2 has some potential advantages around price optimization, it also requires manual management of these EC2 instances. Hypha users would need to ensure the ECS cluster has enough compute resources as well as stay on top of security updates. We chose to use Fargate because it runs and manages infrastructure and automatically scales according to the resources required.
 
