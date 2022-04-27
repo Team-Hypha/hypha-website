@@ -47,6 +47,10 @@
   max-height: 200px;
 }
 
+.case-study .medium {
+  max-height: 300px;
+}
+
 .case-study .big {
   width: 130%;
 }
