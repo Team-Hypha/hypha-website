@@ -160,13 +160,13 @@ To achieve this they will need a system that not only collects and correlates al
 
 Let’s get an overview of the major stages that compose a telemetry pipeline to have a better idea of what’s involved before moving forward. We will use the model outlined by Jamie Riedesel in her book*Software Telemetry*, \[ST] which describes three major phases: Emitting, shipping, and presentation.
 
-<img src="/pipeline/Hypha-Pipeline-Icons.jpg" />
+<img src="/pipeline/Hypha-Pipeline-Icons.jpg" noBackground={true} small={true} />
 
 ### 5.1 Emit
 
 The emitting stage is where we instrument application code to generate the telemetry data that will be used in the pipeline.
 
-<img src="/pipeline/Hypha-Pipeline-Emit.jpg" />
+<img src="/pipeline/Hypha-Pipeline-Emit.jpg" noBackground={true} small={true} />
 
 To generate traces, one approach is to use an SDK from a framework like OpenTelemetry. When a new request hits the system, this code is responsible for generating the data needed to start tracing the journey of that request through the system. For application logs, a common approach is to use a logging library that generates and emits logs in a consistent, customizable format.
 
@@ -176,7 +176,7 @@ The emitting stage is also where we prepare the telemetry data for shipping. Thi
 
 The shipping stage is concerned with collecting the data that’s been emitted, processing that data as needed, and storing it in a way that can be queried effectively.
 
-<img src="/pipeline/Hypha-Pipeline-Ship.jpg" />
+<img src="/pipeline/Hypha-Pipeline-Ship.jpg" noBackground={true} small={true} />
 
 Depending on the use case, this might also be where telemetry data is transformed or enriched to be more helpful. For example, we might want to parse data into a format that’s better suited for the database we’re using, or we might add contextual information that makes our data more helpful later on.
 
@@ -186,7 +186,7 @@ There are many other considerations in this stage, ranging from the type of stor
 
 The presentation stage is focused on querying data from our storage and transforming that data in a useful way. This usually means visualizing data as charts, tables, and graphs, and providing a user interface to interact with the telemetry data produced and stored by the earlier stages of the system.
 
-<img src="/pipeline/Hypha-Pipeline-Present.jpg" />
+<img src="/pipeline/Hypha-Pipeline-Present.jpg" noBackground={true} small={true} />
 
 This is the stage that users of the pipeline are going to interact with and see the most. For example, this is where a developer would actually go to investigate and debug an issue.
 
@@ -236,7 +236,7 @@ A tradeoff is that Hypha isn’t as feature-rich as the SaaS solutions. But this
 
 The home page visualizes error metrics by service, allowing users to quickly assess the health of their system and start investigating problematic logs.
 
-<img src="/hypha/errors-dashboard.png" />
+<img src="/hypha/errors-dashboard.png" className="big-image" />
 
 Users can click into their logs to see expanded detail, and this expanded view includes a “Jaeger'' button that allows them to jump to the trace associated with that log.
 
@@ -273,7 +273,7 @@ One option for generating tracing data is to manually instrument the application
 
 For ease of use, we opted to use an OpenTelemetry auto-instrumentation package. This package wraps JavaScript libraries and frameworks to generate traces without changing the application code.
 
-<img src="/observability/opentelemetry-horizontal-color.png" />
+<img src="/observability/opentelemetry-horizontal.jpg" noBackground={true} small={true} />
 
 For instance, one of the libraries that is instrumented by this package is Node’s HTTP library. When an HTTP request hits the service, the OTel auto-instrumentation automatically captures the request data and uses it to generate a new span for the current trace, all without the developer needing to manually instrument their code. Here is an example of the type of HTTP span data we get from auto-instrumentation, as visualized in the Hypha UI:
 
@@ -460,7 +460,7 @@ Hypha leverages Docker’s ECS integration to convert a Docker Compose file to a
 
 Once the deployment processes are complete, retrieve your gateway collector and Hypha UI endpoints by running:
 
-<img src="/code/get-endpoints.png" />
+<img src="/code/get-endpoints.png" noBackground={true} />
 
 ### 10.2 Setup Instrumentation & Agent
 
@@ -470,23 +470,23 @@ Once you deploy the Hypha backend, you will need to set up the instrumentation a
 
 In your application directory, download the Hypha instrumentation file:
 
-<img src="/code/download-tracing.png" />
+<img src="/code/download-tracing.png" noBackground={true} />
 
 Install dependencies for OpenTelemetry instrumentation:
 
-<img src="/code/install-instrumentation-libraries.png" />
+<img src="/code/install-instrumentation-libraries.png" noBackground={true} />
 
 Then restart your Node application to include the instrumentation:
 
-<img src="/code/restart-application.png" />
+<img src="/code/restart-application.png" noBackground={true} />
 
 ##### Set up Hypha Agent
 
 Download the install script:
 
-<img src="/code/download-agent-install.png" />
+<img src="/code/download-agent-install.png" noBackground={true} />
 
-<img src="/code/install-and-start-agent.png" />
+<img src="/code/install-and-start-agent.png" noBackground={true} />
 
 ## 11. Future Work
 

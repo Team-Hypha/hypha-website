@@ -21,12 +21,16 @@ const CaseStudyPage = ({ location }) => {
               h3: ({ children }) => {
                 return <h3 id={children.replaceAll(' ', '-').toLowerCase()}>{children}</h3>
               },
-              img: ({ src, alt, caption }) => {
+              img: ({ src, alt, caption, noBackground, small }) => {
                 return (
                   <figure>
-                    <div className="case-study__image-background">
-                      <img src={src} alt="placeholder" />
-                    </div>
+                    {!noBackground ? (
+                      <div className="case-study__image-background">
+                        <img src={src} alt="placeholder" />
+                      </div>
+                    ) : (
+                      <img src={src} alt="placeholder" className={small ? 'no-background small' : 'no-background'} />
+                    )}
                     {caption && <figcaption>{caption}</figcaption>}
                   </figure>
                 )
