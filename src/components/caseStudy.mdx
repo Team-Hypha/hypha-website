@@ -134,7 +134,7 @@ This idea of passing an ID along to each component in a transaction has a name -
 
 Let’s take a moment to understand how logs fall short when debugging a distributed system - even in a system that has log aggregation and context propagation. Recall that logs capture details about a point in time. For instance, imagine that Amy gets all the logs for a single transaction:
 
-<img src="/storyline/lots_of_logs.png" noBackground={true} big={true} />
+<img src="/storyline/lots_of_logs.png" noBackground={true} />
 
 While these logs contain information needed to debug an issue, it is difficult to use them to get a high-level picture about things like latency and how a request flowed through a system. Amy and other senior engineers have enough experience and historical context that they often have an intuition for which logs will be most interesting. But newer engineers lack this context and it can take a long time to find the source of the problem. They want a solution that will help everyone get context quickly.
 
@@ -156,13 +156,13 @@ Amy is starting to get a clear picture of what an observability system for their
 
 To achieve this they will need a system that not only collects and correlates all this data, but also presents it in an intuitive, user-friendly way. Next we will take a look at what would go into a system that can do all this.
 
-## 5. Telemetry Pipeline
+## 4. Telemetry Pipeline
 
 Let’s get an overview of the major stages that compose a telemetry pipeline to have a better idea of what’s involved before moving forward. We will use the model outlined by Jamie Riedesel in her book*Software Telemetry*, \[ST] which describes three major phases: Emitting, shipping, and presentation.
 
 <img src="/pipeline/Hypha-Pipeline-Icons.jpg" noBackground={true} small={true} />
 
-### 5.1 Emit
+### 4.1 Emit
 
 The emitting stage is where we instrument application code to generate the telemetry data that will be used in the pipeline.
 
@@ -172,7 +172,7 @@ To generate traces, one approach is to use an SDK from a framework like OpenTele
 
 The emitting stage is also where we prepare the telemetry data for shipping. This preparation may include formatting or enriching the data with additional information. So, the approaches taken in the emitting stage will determine the initial format and content of the telemetry data before it enters the next stage of the pipeline.
 
-### 5.2 Ship
+### 4.2 Ship
 
 The shipping stage is concerned with collecting the data that’s been emitted, processing that data as needed, and storing it in a way that can be queried effectively.
 
@@ -182,7 +182,7 @@ Depending on the use case, this might also be where telemetry data is transforme
 
 There are many other considerations in this stage, ranging from the type of storage we use, to how we aggregate and export our data, to how we process our data and why. All of these choices will have an impact on what we can do in the next stage.
 
-### 5.3 Present
+### 4.3 Present
 
 The presentation stage is focused on querying data from our storage and transforming that data in a useful way. This usually means visualizing data as charts, tables, and graphs, and providing a user interface to interact with the telemetry data produced and stored by the earlier stages of the system.
 
@@ -192,9 +192,9 @@ This is the stage that users of the pipeline are going to interact with and see 
 
 Later on, we will take a deeper dive into each of these sections as we discuss the approaches we took with Hypha. For now, let’s pick back up with Amy and her team as they investigate some of the existing solutions in this domain.
 
-## 6. Existing Solutions
+## 5. Existing Solutions
 
-### 6.1 SaaS
+### 5.1 SaaS
 
 They might start with software-as-a-service solutions, sold by third-party vendors.
 
@@ -206,7 +206,7 @@ However, these benefits come with some drawbacks. First, by sending their data t
 
 Another difficulty with using SaaS solutions is that the vast feature sets can be a double-edged sword. While very powerful, they can also be overwhelming and difficult to learn, and Amy and her team would like to start using telemetry data without such a steep learning curve.
 
-### 6.2 DIY
+### 5.2 DIY
 
 Another approach they might look at is to use open source telemetry tools, which they could connect to create a DIY solution.
 
@@ -222,7 +222,7 @@ Amy and her team would need to invest considerable time and effort in researchin
 
 To review, SaaS solutions are managed and easy to set up, but the team wouldn’t have control over the code, and they wouldn’t have the data ownership they want. DIY gives them more control and ownership, but that control comes at a heavy labor cost. They’d like to have another way, and this is where Hypha fits in.
 
-## 7. Hypha’s Solution
+## 6. Hypha’s Solution
 
 Hypha was designed to combine the easy setup of a SaaS solution with the data ownership and control of a DIY approach.
 
@@ -232,7 +232,7 @@ Hypha provides a ready-made telemetry pipeline, it automates setup and deploymen
 
 A tradeoff is that Hypha isn’t as feature-rich as the SaaS solutions. But this is well-suited for teams looking for a tool that’s easy to understand and start using. Next, we’ll illustrate some of the main features of Hypha’s UI to show how it facilitates an easier debugging workflow.
 
-### 7.1 Using Hypha
+### 6.1 Using Hypha
 
 The home page visualizes error metrics by service, allowing users to quickly assess the health of their system and start investigating problematic logs.
 
@@ -252,11 +252,11 @@ The Hypha UI correlates logs and traces within the same tool, and it facilitates
 
 Hypha saves developers the toil of setting up this kind of solution with a DIY approach, which would involve many challenging steps at each stage of the pipeline. Next, we’ll take a closer look at how Hypha approaches some of those steps, showing what tools we use, why we chose them, and how they work together. We’ll continue following the 3 stages of a telemetry pipeline that were introduced earlier: Emit, Ship, and Present.
 
-## 8. Hypha’s Architecture
+## 7. Hypha’s Architecture
 
 <img src="/architecture/Hypha-Architecture.jpg" big={true} />
 
-### 8.1 Emit
+### 7.1 Emit
 
 In the emit phase, Hypha needs to:
 
@@ -303,7 +303,7 @@ For logs, there are several approaches Hypha could take for collection and proce
 
 With instrumentation for logs and traces in place, the Agent Collector can be configured to emit the telemetry data to Hypha’s backend. Since this process is needed across multiple services, Hypha provides a script to automate downloading and configuring the Tracing Libraries and Agent Collector for each service.
 
-### 8.2 Ship
+### 7.2 Ship
 
 In the ship phase, Hypha needs:
 
@@ -332,7 +332,7 @@ For traces, Hypha uses Jaeger, an open source tracing tool with extensive commun
 
 Both Loki and Jaeger are configured to run as scalable and platform-agnostic containerized services.
 
-### 8.3 Present
+### 7.3 Present
 
 In the Present phase, Hypha needs to:
 
@@ -355,9 +355,9 @@ The Hypha UI completes the final stage of our end-to-end telemetry pipeline.
 
 <img src="/architecture/Hypha-Architecture.jpg" big={true} />
 
-## 9. Implementation Challenges
+## 8. Implementation Challenges
 
-### 9.1 Correlating Logs With Traces
+### 8.1 Correlating Logs With Traces
 
 #### Types of Correlation
 
@@ -411,7 +411,7 @@ One option to implement trace context injection was to create a custom library t
 
 In the presentation phase of the pipeline, the ability to correlate logs and traces visually was also a major consideration. Although the data needed for correlation was added in the emit stage, we now needed to leverage that data so that users could move between logs and traces in the UI. This was a major factor in choosing Grafana, which supports the functionality needed to transform correlated telemetry data to visual interaction.
 
-### 9.2 Deployment
+### 8.2 Deployment
 
 One of our primary design goals was for Hypha to be easy to deploy. To meet this goal, Hypha needed to be platform agnostic, scalable and automated as much as possible.
 
@@ -437,14 +437,14 @@ With Hypha’s components ready to scale, we began exploring options for cloud d
 
 ECS can be configured to run on user-managed AWS EC2 instances or via AWS Fargate, a managed serverless solution for running containers in the cloud. While deploying to EC2 has some potential advantages around price optimization, it also requires manual management of these EC2 instances. Hypha users would need to ensure the ECS cluster has enough compute resources as well as stay on top of security updates. We chose to use Fargate because it runs and manages infrastructure and automatically scales according to the resources required.
 
-## 10. Using Hypha
+## 9. Using Hypha
 
 There are two stages to setting up Hypha:
 
 1. Deploy the Hypha backend infrastructure
 2. Setup the instrumentation and agent for each service
 
-### 10.1 Deploying the Hypha Backend
+### 9.1 Deploying the Hypha Backend
 
 We provide the options to deploy locally, to a VPS, or to AWS ECS.
 
@@ -462,7 +462,7 @@ Once the deployment processes are complete, retrieve your gateway collector and 
 
 <img src="/code/get-endpoints.png" noBackground={true} />
 
-### 10.2 Setup Instrumentation & Agent
+### 9.2 Setup Instrumentation & Agent
 
 #### Instrumentation
 
@@ -488,7 +488,7 @@ Download the install script:
 
 <img src="/code/install-and-start-agent.png" noBackground={true} />
 
-## 11. Future Work
+## 10. Future Work
 
 And that’s Hypha! We’re proud of the work we’ve done. We believe Hypha provides a great observability solution, but we’re also excited about options for expanding its functionality. Here are some of the features we’d like to implement in future iterations:
 
