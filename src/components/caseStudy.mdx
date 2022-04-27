@@ -397,11 +397,11 @@ For engineers used to working with logs, this would be a fundamental change in t
 
 Another option to achieve correlation by execution context is to inject trace context into existing logs. This means accessing the trace ID and span ID and appending it as metadata to each log. For example, a JSON log that starts like this:
 
-<img src="/code/log-before-injection.png" />
+<img src="/code/log-before-injection.png" noBackground={true} />
 
 Would look something like this after trace context is injected:
 
-<img src="/code/log-after-injection.png" />
+<img src="/code/log-after-injection.png" noBackground={true} />
 
 This approach has the downside of making the telemetry pipeline more complex, since traces and logs need to be processed, stored, and queried separately. But the upside of this approach is that it keeps existing logs intact, only adding the execution context. Also, this correlation can be achieved without fundamentally changing the workflow of engineers who are used to logs. Since we wanted to minimize changes to existing code, we decided to inject trace context into logs instead of using span events.
 
