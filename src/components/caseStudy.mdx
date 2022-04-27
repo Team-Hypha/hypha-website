@@ -283,7 +283,7 @@ For instance, one of the libraries that is instrumented by this package is Node�
 
 In addition to providing us with trace generation, the auto-instrumentation library also wraps several popular logging libraries and injects the current trace and span IDs into each log. Hypha later uses this injected context to correlate between logs and traces. We’ll discuss how this works in more detail later on when we dive into Hypha’s implementation challenges.
 
-<img src="/architecture/Hypha-Instrumentation-Correlation.jpg" noBackground={true} />
+<img src="/architecture/Hypha-Instrumentation-Correlation.jpg" noBackground={true} small={true} />
 
 #### Emit: Collecting Logs and Traces
 
@@ -407,7 +407,7 @@ This approach has the downside of making the telemetry pipeline more complex, si
 
 One option to implement trace context injection was to create a custom library that extends popular logging libraries and injects the trace context. However, we were able to take advantage of the Open Telemetry auto-instrumentation package, which is configured to instrument many popular logging libraries by injecting trace context directly into the logs produced by those libraries.
 
-<img src="/architecture/Hypha-Instrumentation-Correlation.jpg" noBackground={true} />
+<img src="/architecture/Hypha-Instrumentation-Correlation.jpg" noBackground={true} small={true} />
 
 In the presentation phase of the pipeline, the ability to correlate logs and traces visually was also a major consideration. Although the data needed for correlation was added in the emit stage, we now needed to leverage that data so that users could move between logs and traces in the UI. This was a major factor in choosing Grafana, which supports the functionality needed to transform correlated telemetry data to visual interaction.
 
