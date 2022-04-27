@@ -15,7 +15,7 @@ const IndexPage = () => {
                 Hypha <span id="spin">correlates</span>
               </h1>
               <h1 className="h2 centered">your logs and traces</h1>
-              <p className="intro-paragraph white-paragraph centered bottom-margin">
+              <p className="intro-paragraph colored-paragraph centered bottom-margin">
                 Hypha is an open-source observability framework for distributed systems
               </p>
               <div className="button-container">

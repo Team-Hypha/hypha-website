@@ -149,6 +149,7 @@
 }
 
 .home-page .button-container {
+  margin-top: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -423,9 +424,13 @@
 }
 
 .home-page .white-paragraph {
-  color: var(--dark-blue);
+  color: var(--black);
   font-weight: 400;
   text-align: justify;
+}
+
+.home-page .colored-paragraph {
+  color: var(--dark-blue);
 }
 
 .home-page .intro-paragraph {
