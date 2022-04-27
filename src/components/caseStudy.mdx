@@ -24,7 +24,7 @@ Hypha deploys an end-to-end telemetry pipeline that sets up distributed tracing,
 
 ## 2. Observability
 
-In software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we will use the following definition:**Observability is “a measure of how well internal states of a system can be inferred from knowledge of its external outputs."**
+In software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we will use the following definition: **Observability is “a measure of how well internal states of a system can be inferred from knowledge of its external outputs."**
 
 At a fundamental level, software systems boil down to inputs and outputs. The computer takes an input, runs the software, and produces an output. But, what if the output is incorrect or the system is unresponsive? How can we inspect the internal state to solve the issue?
 
@@ -32,7 +32,7 @@ At a fundamental level, software systems boil down to inputs and outputs. The co
 
 ### 2.1 Telemetry
 
-The answer is that we must output additional data that tells us about the internal state of the system. The data output for this purpose is called**_telemetry_**, and code written to output telemetry is called**_instrumentation._** There are different types of telemetry, with the three most common being logs, metrics, and traces. These are often called the “Three Pillars" of observability.
+The answer is that we must output additional data that tells us about the internal state of the system. The data output for this purpose is called **_telemetry_**, and code written to output telemetry is called **_instrumentation._** There are different types of telemetry, with the three most common being logs, metrics, and traces. These are often called the “Three Pillars" of observability.
 
 <img src="/observability/Observability_Solution.GIF" />
 
@@ -60,11 +60,11 @@ Although we understand the connections between components of the system, we cann
 
 <img src="/labra/Basic-Trace-Diagram.jpg" />
 
-The trace begins in the top left of the diagram showing that the request begins with the API gateway. A trace is composed of**_spans_**, each representing a unit of work and the time taken to complete that work.
+The trace begins in the top left of the diagram showing that the request begins with the API gateway. A trace is composed of **_spans_**, each representing a unit of work and the time taken to complete that work.
 
 <img src="/labra/Basic-Trace-Diagram-Labeled.jpg" />
 
-Not only can we easily see the length of a span, we can also see how calls to various services are related to each other. Here, the**API Gateway** calls the **Auth** service and then the **Cart** service, which in turn calls the **Lab Tests** service. All these spans together make up the entire trace.
+Not only can we easily see the length of a span, we can also see how calls to various services are related to each other. Here, the **API Gateway** calls the **Auth** service and then the **Cart** service, which in turn calls the **Lab Tests** service. All these spans together make up the entire trace.
 
 ## 3. Challenges With Logs and Traces
 
