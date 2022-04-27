@@ -1,7 +1,7 @@
 .case-study__grid {
   display: grid;
   width: 100vw;
-  grid-template-columns: 0.10fr 0.90fr;
+  grid-template-columns: 0.1fr 0.9fr;
   grid-template-rows: 1fr;
   align-items: center;
   justify-content: center;
@@ -16,9 +16,14 @@
   flex-direction: column;
 }
 
+.case-study figure {
+   width: 130%;
+   align-self: center;
+}
+
 .case-study img {
   max-width: 100%;
-  max-height: 450px;
+  max-height: 500px;
 }
 
 .case-study__image-background {
@@ -113,7 +118,7 @@ h2 + ol {
 
 @media screen and (max-width: 1200px) {
   .case-study__grid {
-    grid-template-columns: 0.30fr 0.70fr;
+    grid-template-columns: 0.3fr 0.7fr;
   }
   .case-study {
     max-width: 650px;
@@ -133,7 +138,6 @@ h2 + ol {
     max-width: 90vw;
   }
 }
-
 
 /* 0 - 600px:      Phone
 600 - 900px:    Tablet portrait
