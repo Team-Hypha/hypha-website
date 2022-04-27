@@ -23,8 +23,10 @@ const CaseStudyPage = ({ location }) => {
               },
               img: ({ src, alt, caption }) => {
                 return (
-                  <figure className="case-study__image-background">
-                    <img src={src} alt="placeholder" />
+                  <figure>
+                    <div className="case-study__image-background">
+                      <img src={src} alt="placeholder" />
+                    </div>
                     {caption && <figcaption>{caption}</figcaption>}
                   </figure>
                 )
