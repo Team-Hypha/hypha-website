@@ -8,63 +8,83 @@ import TableOfContents from './tableOfContents'
 
 ## 1. Introduction
 
-Many applications today use distributed architectures. Distributed systems have the benefit of making systems scalable, reliable and maintainable. But with more components it becomes increasingly difficult to determine where a problem arose because we lack visibility into how requests propagate through the system.
+A major challenge in software engineering is understanding what’s happening in production systems. The processes between a system’s input and output can be like a black box, and the challenge of seeing inside that box becomes increasingly difficult as systems grow in complexity.
 
-In a monolithic system, a typical approach to debugging is to look at the logs when something goes wrong. Logs give a detailed view of individual events, but they only have insight into one component at a time, not the whole system. \[DTIP] It’s challenging to see how the logs produced from one component relate to other components.
+Logs and traces are two types of data that can help developers gain insight into their system. Logs give a micro-level view of specific events happening in the system, and traces give a macro-level view, providing system-wide insight.
 
-One approach to addressing the lack of context between components is to use distributed tracing. Tracing gives a high-level overview of how requests move through a distributed system, and it provides more context for how components in the system interact. However, this still doesn’t address the challenge of connecting logs produced in one component to related logs produced in other components.
+Together, these data types can provide a lot of context about a distributed system, but there are many challenges around using them together effectively. Hypha was built to address those challenges and to help developers understand and debug their systems.
 
-Hypha addresses this challenge by providing a telemetry pipeline that correlates trace data with log data. Hypha’s UI makes it possible to seamlessly move between the high-level view of traces and the detailed event-level view of logs, giving developers the context they need to debug effectively in a distributed system.
+### 1.1 What is Hypha?
 
-### 1.1 Observability Concepts
+Hypha is an open-source observability framework for distributed systems that combines the context of traces with the detail of logs.
 
-In software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we will use the following definition: “a measure of how well internal states of a system can be inferred from knowledge of its external outputs.”
+<img src="/hypha/trace-and-logs.png" caption="Hypha UI connects logs and traces using Grafana" />
+
+Hypha deploys an end-to-end telemetry pipeline that sets up distributed tracing, aggregates existing logs, and correlates logs with traces. This facilitates a powerful debugging workflow using Hypha’s simple UI.
+
+## 2. Observability
+
+In software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we will use the following definition:**Observability is “a measure of how well internal states of a system can be inferred from knowledge of its external outputs."**
 
 At a fundamental level, software systems boil down to inputs and outputs. The computer takes an input, runs the software, and produces an output. But, what if the output is incorrect or the system is unresponsive? How can we inspect the internal state to solve the issue?
 
-For a system to be sufficiently observable, it needs to output enough data that its internal state can be inferred from the outside. The data it outputs for this purpose is called **_telemetry_**. Code that is written to output telemetry is called **_instrumentation._** Any developer who has written a \`console.log\` statement to debug their code has instrumented their code to output telemetry data.
+<img src="/observability/Observability_Problem.GIF" />
 
-There are different types of telemetry, with the three most common being logs, metrics, and traces. These are often called the “Three Pillars” of observability. Hypha focuses primarily on logs and traces, which will be explored in more detail in the following scenario about a fictional startup.
+### 2.1 Telemetry
+
+The answer is that we must output additional data that tells us about the internal state of the system. The data output for this purpose is called**_telemetry_**, and code written to output telemetry is called**_instrumentation._** There are different types of telemetry, with the three most common being logs, metrics, and traces. These are often called the “Three Pillars" of observability.
+
+<img src="/observability/Observability_Solution.GIF" />
 
 #### Metrics
 
 Metrics are a numerical measure that provides a snapshot of some aspect of a system’s behavior during a certain period of time. For instance, this could be requests per second, CPU or memory usage over time, or errors per minute. This data is usually visualized in a dashboard, providing a quick overview of a system’s health.
 
+<img src="/observability/Observability_new-relic-metrics.png" />
+
 #### Logs
 
 Logs are human-readable lines of text that provide specific detail about an event. They provide fine-grained, detailed information originating from a single application.
 
-![](https://lh4.googleusercontent.com/kDbYaZvFJOwcAKUir8gs5HZjVb1IhE3-3Uov3he_K5t13RtZd5MHSJr_ktW3WrE6C884cbXBzK3HAoq_ySX42WLmK6fzOkseD470ehAU-2Vul3kg2qQCgN1iqd2ZCxu91jOacKho)
+<img src="/observability/unstructured-log.png" caption="An unstructured log" />
 
-Unstructured Log
+<img src="/observability/structured-log.png" caption="A structured log" />
 
 #### Traces
 
-Traces provide a higher-level view when compared to logs. Traces provide context for how a given request travels through the system and how different system components interact. A trace is composed of**_spans_**, each representing a unit of work and the time taken to complete that work. The trace starts with the root span where the request entered the system (in this case, the API gateway). Following that, the waterfall chart shows subsequent requests between services.
-
-Below we see an architecture diagram and a trace visualized as a waterfall diagram. The architecture diagram shows connections between components of a system. The trace diagram shows how a single request traveled through the system over time.
+Traces provide context for how a given request travels through the system and how different system components interact. Traces are a bit more complex than metrics and traces, so to illustrate, let’s start with an architecture diagram that shows connections between components of a system.
 
 <img src="/labra/Labra-Distributed.jpg" />
 
-<img src="/labra/Labra_Trace.jpg" />
+Although we understand the connections between components of the system, we cannot see how a*specific request* travels through the system over time. To do this, we can use a distributed trace, visualized as a waterfall diagram:
 
-## 2. Observability Scenario
+<img src="/labra/Basic-Trace-Diagram.jpg" />
+
+The trace begins in the top left of the diagram showing that the request begins with the API gateway. A trace is composed of**_spans_**, each representing a unit of work and the time taken to complete that work.
+
+<img src="/labra/Basic-Trace-Diagram-Labeled.jpg" />
+
+Not only can we easily see the length of a span, we can also see how calls to various services are related to each other. Here, the**API Gateway** calls the **Auth** service and then the **Cart** service, which in turn calls the **Lab Tests** service. All these spans together make up the entire trace.
+
+## 3. Challenges With Logs and Traces
 
 To help illustrate the use case that Hypha addresses, we’re going to tell you the story of Labra Cadabra, a fictional health-tech company. They provide a platform for patients and diagnostic labs to handle payment, scheduling, and viewing test results.
 
-### 2.1 Using Logs Locally
+### 3.1 Using Logs Locally
 
 Amy is a senior engineer at Labra Cadabra. Here she is working on her local computer, adding a feature to their application.When she tests the new code, she finds that a certain input is producing a different output than she expects.Looking only at the output, it’s not obvious what’s wrong.
 
-She can use logging to understand why the code is behaving this way. She writes a few lines of code to output the extra information she needs. In other words, she instruments her code to emit logs. She can use these extra details to pinpoint and fix the issue.
+She can use logging to understand why the code is behaving this way. She writes a few lines of code to output the extra information she needs. In other words, she instruments her code to emit telemetry in the form of logs. She can use these extra details to pinpoint and fix the issue.
 
 <img src="/storyline/Storyline_Using-Logs.GIF" />
 
 Now that Amy has fixed the issue, her code is ready to deploy to Labra Cadabra’s production server. What will this mean for her ability to understand her code through logging?
 
-### 2.2 Using Logs Locally vs. In Production
+### 3.2 Using Logs Locally vs. In Production
 
-During development, Amy can add some logging whenever she wants to output some information. She can then rerun the program and see the output within seconds or minutes. Logs are often not saved since she is using them right away. Additionally, she doesn’t need to put very much thought into the structure and format of the logs; since she just wrote the code that will output the logs, she has the context she needs to understand the information they contain.
+During development, Amy can add some logging whenever she wants to output some information. She can then rerun the program and see the output within seconds or minutes. Logs are often not saved since she is viewing them right away. Additionally, she doesn’t need to put very much thought into the structure and format of the logs; since she just wrote the code that will output the logs, she has the context she needs to understand the information they contain.
+
+<img src="/storyline/Storyline_Using-Logs-Production-Start.jpg" />
 
 In production, several things change. If an issue arises, any member of the team needs to be able access and understand the recent logs. Logs must be persisted and be output in a useful and consistent format. In addition, the time it takes to get new logging into the code has significantly increased. Amy can no longer decide she would like to log the value of a certain variable and see it on her screen a few seconds later. It is important that they make sure their code is well instrumented before being deployed, otherwise they might find they are missing key details needed to understand the state of their application.
 
@@ -72,7 +92,7 @@ Amy has instrumented her code to output logs to a file on the server. When she r
 
 <img src="/storyline/Storyline_Using-Logs-Production.GIF" />
 
-## 3. Microservices
+### 3.3 Using Logs in a Distributed System
 
 As Labra Cadabra grows, they decide to move to a microservice architecture. It has several benefits:
 
@@ -80,95 +100,101 @@ As Labra Cadabra grows, they decide to move to a microservice architecture. It h
 - Each team can focus on a service, meaning they can be responsible for a smaller codebase
 - Teams are more independent, meaning they can make technology choices that are best for their service
 
-Of course, like everything else in software engineering, this comes with tradeoffs.
+Of course, like everything else in software engineering, this comes with tradeoffs and challenges. In particular, there are challenges with regards to observability for distributed systems. Let’s take a look at the challenges that Amy and her team would encounter using logs to debug a distributed system.
 
-<img src="/labra/Labra-Distributed.jpg" />
-
-### 3.1 Log Aggregation
+#### Challenge 1: Logs are distributed across nodes
 
 Previously, Amy could SSH into one server to find the logs she needed. Now that services are separated, many nodes produce logs and it is tedious to SSH into each service, slowing down debugging. One solution is to aggregate logs in one place, which allows the team to find what they need in one location, making debugging quicker.
 
 <img src="/labra/Labra-Distributed_Logs.GIF" />
 
-There are several ways to do this. They can change their logging instrumentation to send logs over the network to a central storage solution or install a separate agent program that scrapes and ships logs from the log files they’re already using.
+There are several ways to do this. They could change their logging instrumentation to send logs over the network to a central storage solution, or they could install a separate program that scrapes and ships logs from the log files they’re already using.
 
-This will solve the issue of having logs distributed across many nodes, but there’s another challenge they face as the company grows. With the distributed nature of the new system, it becomes more difficult to see how the execution of a single request flows through the different services.
+#### Challenge 2: Connecting logs from the same transaction
 
-### 3.2 Distributed Tracing
+Having a centralized location for logs will speed up debugging for Labra Cadabra engineers. However, there will still be challenges with finding the logs they need in any given scenario. A single request from a user can touch and generate logs in many different services but there is no automatic connection between all of the logs produced by that transaction.
 
-![](https://lh5.googleusercontent.com/HH0wXUckZ1IRL6RJKLnjax7bYvboUwMJEaFgJTI-cjvemXFUe1nzFqahnoYYY7sndhYtgmlnTDLGZQM7fM7zDVTlXg_84gstGvADwn3PcEChvzLXvxVTLsrSOzEtaRXrwU4eGz5H)
+Imagine that Amy has received reports of an error when users are checking out, and she finds a log in the Cart service that has an error.
 
-If there is a problem with a request, how does an engineer determine which service is responsible for the problem? Without context for how a request travels through the system, it can be challenging to find the source of the issue. This is especially difficult for new hires who are still learning about the system. Amy and other senior engineers have enough experience and historical context that they often have a good idea of where to look when an issue arises. But even for senior engineers, this will continue to become more difficult as the system’s complexity grows. They want a solution that will help everyone get context quickly.
+Amy would like to see all the logs that are part of the same transaction, because there may be additional valuable information in the Lab Tests or Analysis services even if they have not produced an error.
 
-Fortunately, Amy and her team aren’t the first to encounter this challenge. Distributed tracing was developed to address this lack of context by providing information about the execution path of a request. The visual summary of the timing and flow of a request provides a quick and intuitive way to understand how a single request moved through the system and how components are connected. This makes it easier to identify where problems are occurring quickly.
+<img src="/storyline/Search_Logs-Has-vs-Wants.GIF" />
 
-For instance, if Amy gets complaints about a delayed request to the cart service, she could browse traces that touch the cart service. She takes a look, and most of the recent traces look something like the waterfall on the left. But she then finds a few requests that look like the diagram on the right. Immediately she can see that the last call to the lab tests service is a lot longer than the others. While the trace data doesn’t tell her exactly why this is occurring, she can quickly identify that there may be a problem causing the lab tests service to respond slowly in this case.
+However, without a single piece of correlating information, it can be really difficult to find these. She could use things like userID or timestamp to narrow down the logs, but these won’t be specific enough to show the logs belonging to a single request’s journey: the same userID could belong to many requests, and many requests could occur in the same period of time.
 
-<img src="/labra/Labra_Traces-Comparison.jpg" />
+<img src="/storyline/Search_Logs-Adhoc-Filter.GIF" />
 
-### 3.3 Using Logs and Traces Together
+What Amy and her team need is a single ID that can be attached to every log that is generated as part of a single transaction. If they had this, Amy’s search would be as simple as finding a log with an error and then using that transaction ID to filter the logs in all other services.
 
-Logs contain details about specific events, and traces contain a high-level picture of the execution path. These two types of telemetry complement each other well, but there are challenges to using them effectively.
+<img src="/storyline/Search_Logs-Transaction-Filter.GIF" />
 
-Going between logs and traces presents some challenges. Consider the scenario where Amy is investigating a user-reported error occurring in the lab test service. She’s found a log that shows the error. This gives her details, but she needs more context about the request that caused the error.
+This idea of passing an ID along to each component in a transaction has a name - context propagation. \[LS] In her research, Amy finds that properly implementing context propagation is difficult. However, she also discovers that context propagation is one of the primary problems solved by distributed tracing. Amy could use the context propagation provided by tracing to connect all of their logs from a single transaction. In addition, distributed tracing will help give them another dimension of observability that they can’t get from logs alone.
 
-![](https://lh6.googleusercontent.com/4hkzV0RuWx18MC7_ferEg6Gy6D_2la049cMUipfp99p4bQlVovSWpAphm9ImsDdmiSocfM-ENq4BrJK7A_agDxtObQXUo8k4mBJOVX9PeCfyN-sAOVbJmuo6wmzQ2V9OYbNZO7Kv)
+#### Challenge 3: Getting a high-level view of a request
 
-Amy could use distributed tracing to gain more context about this request. The question is, how does she find the trace for the request that created this specific log? To demonstrate how she might do this, here is what she would need to do using the UI of a popular open-source tracing tool, Jaeger.
+Let’s take a moment to understand how logs fall short when debugging a distributed system - even in a system that has log aggregation and context propagation. Recall that logs capture details about a point in time. For instance, imagine that Amy gets all the logs for a single transaction:
 
-![](https://lh4.googleusercontent.com/qTYZpTZCQMnuirjZrI9Ta-FG_q0i60q0A_tjdeHWH0IyBQ7I7r1X2OZtQ7GpM6Gt6dbFSIzZx3MhnC5UZmBQv6Fw2y5dA6SVhBC84AktKuWU_wbuGh_40Pf0XMDWu1bsxyHFUj44)![](https://lh5.googleusercontent.com/wEZ0MozlFUGdWtl2M43G-Nu90z26M_MzAdCZ5z8msAZfeVezhfqNeuC3Zak5hUJYM-v68su0IP4KmmxxyoEg5CokzTKjzKIwIM44j_-FqTcWcSENY70NG7KZg0vb7-Iz11AqSiyl)![](https://lh5.googleusercontent.com/L96kAtxt3FmLIDnqaBSxEoCiZQAg_a5dKDI62poTUBmiD_TO7E7R4zJjXEemuToUdeb_HLSJyfUKcjPkyXgFZNy5DWHk-OcERx1fsyF8Nzo6zf87wRuU6_K4ETg9tpAUt3gzglmR)![](https://lh3.googleusercontent.com/gjyD6rwF_-1lhDX_4m_Xkbxt_CEOe5ygkidtr76EIvuQqa_XyB_0-1ERrStbGRHeXkqIOa_PJR9DBu0zSiPafU2HnbGMbMhX2OdR2HRS9YE--R9l_-uvEh7Jctk9iFzIxYSTusBm)
+<img src="/storyline/lots_of_logs.png" />
 
-&lt; placeholder images above >
+While these logs contain information needed to debug an issue, it is difficult to use them to get a high-level picture about things like latency and how a request flowed through a system. Amy and other senior engineers have enough experience and historical context that they often have an intuition for which logs will be most interesting. But newer engineers lack this context and it can take a long time to find the source of the problem. They want a solution that will help everyone get context quickly.
 
-The log has a timestamp, so she can set a custom time range to capture traces around that time. She also knows what service it came from, so she can search only traces that contain that service. She knows it was a 500 error, so she can filter by error code.
+Fortunately for Amy and her team, distributed tracing was developed to address this lack of context. A waterfall visualization of a trace provides a quick and intuitive way to understand how a single request moved through the system, including the time taken in each service. This makes it easy for anyone to quickly get context for how the system works and to quickly identify where problems are occurring.
 
-Depending on how busy that service is and how many 500 errors occurred during the time range, Amy might have narrowed down the number of traces to a manageable amount. But she might also need to keep refining her search if there are too many traces. This process is tedious, especially if Amy is trying to do this in the middle of a high-stress incident.
+For instance, if Amy gets complaints about a delayed request to the cart service, she could browse traces that touch the cart service. She takes a look, and most of the recent traces look something like this.
 
-Assuming that Amy has found the trace she is looking for, she would like to be able to take a look at the specific logs associated with this single request in the other services it touched. In distributed systems, the root cause of an error in one service might be an event that occurred in a different service. That service may not have even thrown an error, but there could be important details in the logs from that service. So how does she get from the trace to the logs?
+<img src="/labra/Basic-Trace-Diagram-Detailed.jpg" />
 
-<img src="/storyline/Storyline_Search.GIF" />
+But then she finds a few requests that look a little unusual:
 
-She can search the logs for that service and filter the timestamps based on when the span occurred. But there might be dozens or hundreds of logs in that timeframe. This can make looking for the ones they want “like looking for a needle in a stack of needles” \[TY]. Logs will all look the same and there is often not an easy way to differentiate them.
+<img src="/labra/Basic-Trace-Diagram-Detailed-Long-Span.jpg" />
 
-There are many ad hoc ways to correlate logs and traces, but the core problem is that there is rarely one single piece of data present in every log and every trace that Amy and her team can predictably use to correlate.
+Immediately she can see that the last call to the lab tests service is a lot longer than the others, meaning that there may be a problem causing the lab tests service to respond slowly in this case.
 
-Amy and her team would like to have a way to connect their log data and their trace data seamlessly. They need a single context or unique identifier that gets attached to every log and trace and that will travel with a request as it moves through their system. This will make it easier to move between associated logs and traces, speeding up debugging.
+#### Connecting Logs and Traces
 
-Amy and her team determine that they would like to implement log aggregation and distributed tracing. In addition, they would like their logs and traces to be correlated with each other.To achieve their desired level of observability, they will need to provision or build a telemetry pipeline that can generate and handle this data.
+Amy is starting to get a clear picture of what an observability system for their system would look like. Aggregating logs and using context propagation will make it possible to quickly find the logs they need. Using distributed tracing will allow anyone on the team to get insight into how a request flows through the system. Connecting logs and traces will allow engineers to flow back and forth between the macro-level view of traces and the micro-level view of logs.
 
-## 4. Telemetry Pipeline
+To achieve this they will need a system that not only collects and correlates all this data, but also presents it in an intuitive, user-friendly way. Next we will take a look at what would go into a system that can do all this.
 
-<img src="/pipeline/Hypha-Pipeline-Icons.jpg" />
+## 5. Telemetry Pipeline
 
 Let’s get an overview of the major stages that compose a telemetry pipeline to have a better idea of what’s involved before moving forward. We will use the model outlined by Jamie Riedesel in her book*Software Telemetry*, \[ST] which describes three major phases: Emitting, shipping, and presentation.
 
-### 4.1 Emit
+<img src="/pipeline/Hypha-Pipeline-Icons.jpg" />
 
-The emitting stage iswhere we instrument the code to generate and emit the telemetry data that will flow through the rest of the system.
+### 5.1 Emit
 
-For example, to generate traces, one approach is to use an SDK from a framework like Open Telemetry. When a new request hits the system, this code is responsible for generating the data needed to start tracing the journey of that request through the system. For application logs, a common approach is to use a logging library that generates and emits logs in a consistent, customizable format.
+The emitting stage is where we instrument application code to generate the telemetry data that will be used in the pipeline.
+
+<img src="/pipeline/Hypha-Pipeline-Emit.jpg" />
+
+To generate traces, one approach is to use an SDK from a framework like OpenTelemetry. When a new request hits the system, this code is responsible for generating the data needed to start tracing the journey of that request through the system. For application logs, a common approach is to use a logging library that generates and emits logs in a consistent, customizable format.
 
 The emitting stage is also where we prepare the telemetry data for shipping. This preparation may include formatting or enriching the data with additional information. So, the approaches taken in the emitting stage will determine the initial format and content of the telemetry data before it enters the next stage of the pipeline.
 
-### 4.2 Ship
+### 5.2 Ship
 
 The shipping stage is concerned with collecting the data that’s been emitted, processing that data as needed, and storing it in a way that can be queried effectively.
 
-Depending on the use case, this might also be where telemetry data is transformed or enriched to be more helpful. For example, we might want to parse data into a format that’s better suited for the database we’re using, or we might add contextual information that makes our data more helpful later on. This kind of enrichment is also sometimes done in the emitting stage, and this is just one of the variations in implementation that can exist.
+<img src="/pipeline/Hypha-Pipeline-Ship.jpg" />
 
-There are many other considerations in this stage, ranging from the type of storage we use, to how we aggregate and export our data, to how we process our data and why, and all of these choices will have an impact on what we can do next.
+Depending on the use case, this might also be where telemetry data is transformed or enriched to be more helpful. For example, we might want to parse data into a format that’s better suited for the database we’re using, or we might add contextual information that makes our data more helpful later on.
 
-### 4.3 Present
+There are many other considerations in this stage, ranging from the type of storage we use, to how we aggregate and export our data, to how we process our data and why. All of these choices will have an impact on what we can do in the next stage.
+
+### 5.3 Present
 
 The presentation stage is focused on querying data from our storage and transforming that data in a useful way. This usually means visualizing data as charts, tables, and graphs, and providing a user interface to interact with the telemetry data produced and stored by the earlier stages of the system.
+
+<img src="/pipeline/Hypha-Pipeline-Present.jpg" />
 
 This is the stage that users of the pipeline are going to interact with and see the most. For example, this is where a developer would actually go to investigate and debug an issue.
 
 Later on, we will take a deeper dive into each of these sections as we discuss the approaches we took with Hypha. For now, let’s pick back up with Amy and her team as they investigate some of the existing solutions in this domain.
 
-## 5. Existing Solutions
+## 6. Existing Solutions
 
-### 5.1 SaaS
+### 6.1 SaaS
 
 They might start with software-as-a-service solutions, sold by third-party vendors.
 
@@ -180,7 +206,7 @@ However, these benefits come with some drawbacks. First, by sending their data t
 
 Another difficulty with using SaaS solutions is that the vast feature sets can be a double-edged sword. While very powerful, they can also be overwhelming and difficult to learn, and Amy and her team would like to start using telemetry data without such a steep learning curve.
 
-### 5.2 DIY
+### 6.2 DIY
 
 Another approach they might look at is to use open source telemetry tools, which they could connect to create a DIY solution.
 
@@ -192,136 +218,162 @@ But this also comes at a cost. The biggest challenge with this approach is the s
 
 Amy and her team would need to invest considerable time and effort in researching these tools. First, they would need to learn which tools fit their use case for each pipeline stage. Then, they would need to determine which of these tools are compatible. Once they’ve decided which tools to use, they must configure them to match their use case and make sure the tools integrate effectively.
 
-![](https://lh4.googleusercontent.com/WZXkuZu09_MygzOLKe7-rmELyWbzWFNBcxQypfeIyoO3_0U9lTvtcE3Cb6Nwpv2ZtltI4ZcEnRFQMnwxSTCqoSe9eGcxXV08RmxfdmGVNR8xyOrmSqv2IN7TeiX9tuNOxSL11Nk8)
+<img src="/solutions/comparison-table.png" />
 
 To review, SaaS solutions are managed and easy to set up, but the team wouldn’t have control over the code, and they wouldn’t have the data ownership they want. DIY gives them more control and ownership, but that control comes at a heavy labor cost. They’d like to have another way, and this is where Hypha fits in.
 
-## 6. Introducing Hypha
+## 7. Hypha’s Solution
 
-![](https://lh4.googleusercontent.com/2fkerhKKiAMaYQNsN1_Rmj610cQfn-5tlyS4rIn1xMsmyUNCcWZ7tAzPzi4qXwfdMtEyD5GeVvQzYWWmdBTOK0qQYtF1n5i0EPWrw91FHYDzzmiy7NVMDlHG4v9tzcFvXdyr62eU)
+Hypha was designed to combine the easy setup of a SaaS solution with the data ownership and control of a DIY approach.
 
-Hypha was designed to provide the easy setup of a SaaS solution, along with the data ownership and control of a DIY approach. Hypha provides a ready-made telemetry pipeline, automates setup and deployment processes, and provides a UI that’s easy to learn and start using.
+<img src="/solutions/comparison-table-with-hypha.png" />
 
-Our code is open-source, which means that teams have the option to customize and control the code if they want, but they don’t have to change anything to get started. Because Hypha is deployed to their infrastructure, Labra Cadabra retains ownership of the data flowing through their pipeline.
+Hypha provides a ready-made telemetry pipeline, it automates setup and deployment processes, and it provides a UI that’s easy to learn and start using. It’s powered by Grafana, but packaged in a streamlined and pre-configured interface.
 
-There are a couple of trade-offs with using Hypha. One is that it’s not as feature-rich as some SaaS solutions. But this is suited for Amy and her team, who are looking for something easy to learn that they can get started with quickly. The other trade-off is that teams will have to manage the Hypha infrastructure. This isn’t as convenient as a SaaS solution, but for Labra Cadabra, self-management is worth the effort to have control and data ownership.
+A tradeoff is that Hypha isn’t as feature-rich as the SaaS solutions. But this is well-suited for teams looking for a tool that’s easy to understand and start using. Next, we’ll illustrate some of the main features of Hypha’s UI to show how it facilitates an easier debugging workflow.
 
-### 6.1 Demo Rework
+### 7.1 Using Hypha
 
-Here’s the dashboard of the Hypha UI. It gives you an overview of your system health, showing you metrics like errors by service, logs by level or type, and a list of logs containing errors.
+The home page visualizes error metrics by service, allowing users to quickly assess the health of their system and start investigating problematic logs.
 
-You can filter the data displayed on the dashboard by time range
+<img src="/hypha/errors-dashboard.png" />
 
-and service name. If you want to take a closer look at one of the logs, you can click into it, and this will expand to show you more detail about that log.
+Users can click into their logs to see expanded detail, and this expanded view includes a “Jaeger'' button that allows them to jump to the trace associated with that log.
 
-This information includes the trace id of the trace that’s associated with that log, which we use for correlation. To see this trace, you can click the Jaeger button, and you’ll be taken to the trace overview.
+<img src="/hypha/log-to-trace.gif" />
 
-Here, we see a waterfall chart representing the trace that is associated with the log we were just looking at. If you want to investigate one of the spans in this trace, you can click into the span, and you’ll see expanded information about that span.
+The trace overview displays a waterfall chart representing the trace and its spans. Users can click into a span to see its expanded attributes along with a “Logs for this span" button.
 
-To see the logs that were produced during that span, you can click the logs for this span button, and a new frame will open up alongside, showing the logs specific to that span.
+<img src="/hypha/trace-to-log.gif" />
 
-You can click into one of these logs to get more detail, and again you’ll get an expanded view of that log’s data. You can continue exploring your data in this way.
+Clicking this button opens a side window that displays the logs associated with that span. This provides users with immediate access to the detailed information provided by relevant logs, making it easier to continue investigating and debugging.
 
-Going back and forth between logs and traces like this gives you a lot of flexibility and power in terms of how you investigate. We also have dedicated tabs that allow you to search your logs and traces individually.
+The Hypha UI correlates logs and traces within the same tool, and it facilitates easy access and movement between them. This makes the debugging process faster and more fluid, and it saves users the toil of having to manually correlate and search for their data in different places.
 
-Our goal was to provide a focused UI that was easy to get started with. But there are also many options for customization and expansion because Grafana powers our UI, and we include a link that allows you to access Grafana directly.
+Hypha saves developers the toil of setting up this kind of solution with a DIY approach, which would involve many challenging steps at each stage of the pipeline. Next, we’ll take a closer look at how Hypha approaches some of those steps, showing what tools we use, why we chose them, and how they work together. We’ll continue following the 3 stages of a telemetry pipeline that were introduced earlier: Emit, Ship, and Present.
 
-## 7. Hypha’s Architecture
-
-When we set out to build Hypha, we agreed it should meet the following Design Goals:
-
-- Have Drop-In Functionality
-- Be Interoperable
-- Be Easy to Use
-- Be Ready to Deploy
-
-Recall the 3 phases of the telemetry pipeline from earlier: Emit, Ship, and Present. We chose specific tools and configurations within each phase of Hypha’s architecture.
-
-### 7.1 Emit
-
-In the emit phase, Hypha needs to generate traces, collect existing logs, create the correlation between logs and traces, and emit this data to the next phase of the pipeline. Because we wanted developers to be able to easily add Hypha to an existing application, we needed to accomplish these tasks while requiring minimal changes to existing code, and avoiding manual setup or complex configuration. Currently, Hypha can be used with NodeJS applications running on a server such as a virtual private server. We assume that the application is outputting logs to a local file on the server.
-
-<img src="/architecture/Hypha-Instrumentation-Before.jpg" />
-
-#### Generating Traces
-
-The first consideration is for Hypha to generate traces. One option for generating tracing data is to instrument the application code manually. This involves using a tracing library to add instrumentation to the application code to create traces and spans. The developer must also specify the details and attributes to attach to spans and configure where they should be sent.
-
-This approach allows the developer to have complete control over the data included in each span. However, this takes time to learn and implement correctly. In addition, the process must be completed for each service they want to instrument. Asking this much of Hypha’s users went against our design goal of being a drop-in solution. We needed a solution for generating trace data with minimal setup and changes to existing code.
-
-To accomplish this, we used an OpenTelemetry auto-instrumentation package. This package wraps JavaScript libraries and frameworks to generate traces without changing the application code. One example is the network protocol library for HTTP. The instrumentation wraps the library, attaching HTTP request and response details to the current trace.
-
-In addition to providing us with trace generation, the auto-instrumentation library also wraps several popular logging libraries and injects the current trace and span IDs into each log. Hypha later uses this injected context to correlate between logs and traces.
-
-<img src="/architecture/Hypha-Instrumentation-Middle.jpg" />
-
-#### Emitting Trace Data
-
-Next, Hypha needs to send this telemetry data to the next pipeline phase. We could configure the tracing instrumentation to send this data directly, but there are advantages to offloading this responsibility from the main application. For instance, it makes it possible to perform processing on the traces and batch the data, making for more efficient network usage. For this purpose, we use the OpenTelemetry Collector. The collector runs as a separate binary on the same host as the instrumented application.
-
-#### Handling Logs
-
-There are several ways that Hypha could collect logs from the application. The most direct way would be to have the application send logs directly to an agent instead of a file. However, this would require Hypha users to change their logging endpoint, violating our design goal of minimal changes to application code.
-
-We decided to use an agent to read, process, and emit the data from existing log files. One option was to use a stand-alone program like FluentBit. This option would have added another binary application to run on the server, bringing greater complexity of installation and configuration. Instead, we chose to use the "filelog” receiver of the OpenTelemetry Collector. While this option is not as full-featured as some other solutions, we decided it made sense to keep the architecture simple and lightweight, using one collector to handle both logs and traces.
-
-<img src="/architecture/Hypha-Instrumentation-After-multi.jpg" />
-
-#### Sending Data
-
-With instrumentation for logs and for traces in place, the Agent Collector can be configured to emit the telemetry data to Hypha’s backend. Since this process is needed across multiple services, Hypha provides a script to automate downloading and configuring the Tracing Libraries and Agent Collector.
-
-### 7.2 Ship
-
-In the ship phase, Hypha needs to aggregate logs and traces from different services, handle data processing and enrichment, and needs storage solutions that can handle high throughput. Hypha should also be interoperable and scalable to handle future changes.
-
-Hypha uses the Open Telemetry Collector deployed as a central Gateway to handle aggregation, processing, and exporting. This approach provides many benefits. Open Telemetry is quickly becoming the gold standard for telemetry data, and it already integrates well with most observability tools. This helps make the backend interoperable, giving developers the flexibility to easily change tools if needed. For example, if a developer wants to export their trace data to a different tool, they can simply change a few lines of code in their Gateway configuration. Having a central gateway also makes it easier to configure data enrichment and processing from one place.
-
-<img src="/architecture/Hypha-Collection-After.jpg" />
-
-Following the Gateway Collector, Hypha needs storage solutions for both traces and logs. Production applications can produce a massive amount of telemetry data, so Hypha’s storage solutions should be able to handle high throughput. They need to write data quickly and should be able to scale. Hypha uses separate solutions for logs and traces to separate concerns and provide flexibility.
-
-For logs, Hypha uses Grafana Loki. Loki is designed to index logs by key-value pairs called labels. Indexing this way makes Loki cheaper to operate than a full index and enables it to handle high log volumes efficiently. Additionally, we needed a solution that would work well with Grafana, which we chose to power Hypha’s UI. Because Loki is part of Grafana labs, it integrates well with Grafana and is well-suited to the way that Grafana handles telemetry linking.
-
-For traces, Hypha uses Jaeger, an open source tracing tool with extensive community support. Initially, we explored Grafana Tempo as an option, since it integrates well with other Grafana Labs tools and is designed to link telemetry data. However, we chose Jaeger because it currently allows more extensive search options than Tempo, and we wanted to give developers more options to search their traces individually.
-
-Both Loki and Jaeger are configured to run as scalable and platform-agnostic containerized services.
-
-<img src="/architecture/Hypha-Store-After.jpg" />
-
-### 7.3 Present
-
-In the Present phase, Hypha needs to query telemetry data from Loki and Jaeger, and it needs to visualize that data within a central UI. This UI should leverage Hypha’s correlated telemetry data to allow users to flow between related logs and traces. Hypha needs to accomplish this while also being easy to use: the UI shouldn’t require a steep learning curve.
-
-One possibility was to create our custom UI to handle querying and visualization. While this would have allowed a very focused experience, it would have meant significant effort and would not have been as feature-rich as incorporating existing solutions.
-
-Another option was to use Grafana, a powerful open-source tool capable of querying and visualizing data from many different sources. However, a downside to using Grafana is that its extensive feature set can be difficult to learn and start using. Because Grafana was designed to handle so many use cases, its UI can feel overwhelming.
-
-We developed the Hypha UI to address this challenge, which wraps Grafana in an intuitive, focused interface and provides customized dashboards. Developers can get started quickly without a steep learning curve while maintaining access to Grafana’s powerful features.
-
-Hypha leverages Grafana to proxy API calls to both Loki and Jaeger data sources. Grafana also provides feature-rich interfaces for querying both traces and logs. Lastly, and most importantly, Hypha configures Grafana to link related logs and traces within debugging flows.
-
-<img src="/architecture/Hypha-Present-After.jpg" />
-
-The Hypha UI completes the final stage of our end-to-end telemetry pipeline. This completes the final phase of Hypha. Together we now have an end to end telemetry pipeline.
+## 8. Hypha’s Architecture
 
 <img src="/architecture/Hypha-Architecture.jpg" />
 
-## 8. Engineering Challenges
+### 8.1 Emit
 
-### 8.1 Correlating Logs With Traces
+In the emit phase, Hypha needs to:
+
+- Generate traces
+- Create the correlation between logs and traces
+- Collect logs and traces
+- Send this data to the next phase of the pipeline
+
+Because we wanted developers to be able to easily add Hypha to an existing application, we needed to accomplish these tasks while requiring minimal changes to existing code.
+
+#### Emit: Generating Traces
+
+One option for generating tracing data is to manually instrument the application code using a tracing library. The developer must configure the library for their application, specifying the details and attributes to attach to spans and configuring where they should be sent. This approach allows the developer to have complete control over the data included in each span. However, this takes time to learn and implement correctly. In addition, the process must be completed for each service.
+
+For ease of use, we opted to use an OpenTelemetry auto-instrumentation package. This package wraps JavaScript libraries and frameworks to generate traces without changing the application code.
+
+<img src="/observability/opentelemetry-horizontal-color.png" />
+
+For instance, one of the libraries that is instrumented by this package is Node’s HTTP library. When an HTTP request hits the service, the OTel auto-instrumentation automatically captures the request data and uses it to generate a new span for the current trace, all without the developer needing to manually instrument their code. Here is an example of the type of HTTP span data we get from auto-instrumentation, as visualized in the Hypha UI:
+
+<img src="/hypha/trace-http-info.png" />
+
+#### Emit: Adding Correlation Data
+
+In addition to providing us with trace generation, the auto-instrumentation library also wraps several popular logging libraries and injects the current trace and span IDs into each log. Hypha later uses this injected context to correlate between logs and traces. We’ll discuss how this works in more detail later on when we dive into Hypha’s implementation challenges.
+
+<img src="/architecture/Hypha-Instrumentation-Correlation.jpg" />
+
+#### Emit: Collecting Logs and Traces
+
+At this stage of the architecture, Hypha has instrumented traces and logs, and this telemetry data is correlated through trace context.
+
+<img src="/architecture/Hypha-Instrumentation-Middle.jpg" />
+
+Now Hypha needs to send this telemetry data to the next pipeline phase.
+
+For traces, we could configure the auto-instrumentation to send trace data directly to the next stage in the pipeline, but there are advantages to offloading this responsibility from the main application. For instance, this would enable us to perform processing on the traces and to batch the data, making for more efficient network usage. For this reason, we configure the instrumentation code to send traces to an OpenTelemetry Agent Collector. The Agent Collector runs as a separate binary on the same host as the instrumented application.
+
+<img src="/architecture/Hypha-Instrumentation-After.jpg" />
+
+For logs, there are several approaches Hypha could take for collection and processing. The most direct way would be to have developers change their application code to send logs straight to the Agent Collector. However, we wanted Hypha to require minimal changes to existing application code. We chose to use the OpenTelemetry filelog receiver with the Agent Collector, which scrapes logs from existing files. While this option is not as fully-featured as some other solutions such as FluentBit, we wanted to reduce the dependencies needed at this stage, so we use one Agent Collector to handle both logs and traces.
+
+#### Emit: Sending Data
+
+With instrumentation for logs and traces in place, the Agent Collector can be configured to emit the telemetry data to Hypha’s backend. Since this process is needed across multiple services, Hypha provides a script to automate downloading and configuring the Tracing Libraries and Agent Collector for each service.
+
+### 8.2 Ship
+
+In the ship phase, Hypha needs:
+
+- A central location for telemetry aggregation and processing
+- Storage solutions for logs and traces that can handle high throughput.
+
+We also wanted these tools to be flexible and scalable to handle future changes.
+
+#### Ship: Aggregate and Process Telemetry
+
+Hypha uses the OpenTelemetry Collector deployed as a central Gateway to handle aggregation, processing, and exporting.
+
+<img src="/architecture/Hypha-Collect.jpg" />
+
+This approach provides many benefits. OpenTelemetry is quickly becoming the gold standard for telemetry data, and it already integrates well with most observability tools. This helps give developers the flexibility to easily change tools if needed. For example, if a developer wants to export their trace data to a different tool, they can simply change a few lines of code in their Gateway configuration. Having a central gateway also makes it easier to configure data enrichment and processing from one place.
+
+#### Ship: Storing Logs and Traces
+
+Production applications can produce a massive amount of telemetry data, so Hypha’s storage solutions should be able to handle high throughput. They need to write data quickly and should be able to scale. Hypha uses different solutions for logs and traces to separate concerns and provide flexibility.
+
+<img src="/architecture/Hypha-Store.jpg" />
+
+For logs, Hypha uses Grafana Loki. Loki is designed to index logs by key-value pairs called labels. Indexing this way makes Loki cheaper to operate than a full index and enables it to handle high log volumes efficiently. Additionally, we needed a solution that would work well with Grafana, which we chose to power Hypha’s UI. Because Loki is part of Grafana labs, it integrates well with Grafana and is well-suited to the way that Grafana handles telemetry linking.
+
+For traces, Hypha uses Jaeger, an open source tracing tool with extensive community support. Initially, we explored Grafana Tempo as an option, since it integrates well with other Grafana Labs tools and is designed to link telemetry data. However, we ultimately chose Jaeger because it allows more extensive search options than Tempo, and we wanted to give developers more options to search their traces individually.
+
+Both Loki and Jaeger are configured to run as scalable and platform-agnostic containerized services.
+
+### 8.3 Present
+
+In the Present phase, Hypha needs to:
+
+- Query telemetry data from Loki and Jaeger
+- Visualize that data within a central UI
+
+The UI should leverage Hypha’s correlated telemetry data to allow users to flow between related logs and traces. Hypha needs to accomplish this while also being easy to use: the UI shouldn’t require a steep learning curve.
+
+One possibility was to create our custom UI to handle querying and visualization. While this would have allowed a very focused experience, it would have meant significant effort and would not have been as feature-rich as incorporating existing solutions.
+
+Another option was to use Grafana, a powerful open-source tool capable of querying and visualizing data from many different sources. However, a downside to using Grafana is that its extensive feature set can be difficult to learn, configure, and start using.
+
+<img src="/architecture/Hypha-Present.jpg" />
+
+We developed the Hypha UI to address this challenge. It wraps Grafana in an intuitive, focused interface and provides customized dashboards. Developers can get started quickly without a steep learning curve while maintaining access to Grafana’s powerful features.
+
+Hypha leverages Grafana to proxy API calls to both Loki and Jaeger data sources. Grafana also provides feature-rich interfaces for querying both traces and logs. Lastly, and most importantly, Hypha configures Grafana to link related logs and traces within debugging flows.
+
+The Hypha UI completes the final stage of our end-to-end telemetry pipeline.
+
+<img src="/architecture/Hypha-Architecture.jpg" />
+
+## 9. Implementation Challenges
+
+### 9.1 Correlating Logs With Traces
 
 #### Types of Correlation
 
-One of the primary engineering decisions we needed to make was exactly how to correlate logs with traces. There are several different types of correlation, each with its own tradeoffs.
+One of the primary engineering decisions we needed to make was choosing the best way to correlate logs with traces. There are several different types of correlation we considered, each with its own tradeoffs.
 
 ##### Time
 
 Because both logs and traces contain time-based data, this seems like a natural way to correlate the two. The upside of this approach is that it does not require adding any additional information into either type of telemetry. Unfortunately, the correlation this produces is not specific enough to be useful. Since many requests can occur concurrently, a single log could be linked with several traces and vice-versa.
 
-##### Origin of Telemetry
+<img src="/architecture/Correlation-by-Time.jpg" />
+
+##### Origin
 
 Another approach is to correlate by the origin of telemetry. The common point of reference is the resource which emitted the logs and traces (e.g. the name of the service or host). This approach shares the advantage of being relatively straightforward, as this data is usually included with or added to logs and traces. However, correlation by origin also lacks the specificity needed to be useful, since a single resource will produce many logs and traces.
+
+<img src="/architecture/Correlation-by-Origin.jpg" />
 
 ##### Execution Context
 
@@ -333,70 +385,84 @@ We wanted to link logs and traces more tightly than was possible by time or orig
 
 One option for correlating by the execution context involves replacing logs with span events. Span events are a form of structured logs appended directly to spans. Like logs, they’re good for recording fine-grained details about events at a point in time. So, instead of being separate types of telemetry, logs are appended to spans as events and directly inherit the trace context.
 
-&lt; visual here showing logs being attached directly to spans >
+<img src="/labra/Labra_Trace-Span-Event.jpg" />
 
-This option simplifies the telemetry pipeline architecture: we would only need to collect, store, and query traces. However, this would require users to refactor their code to attach events to spans instead of outputting logs. For engineers used to working with logs, this would be a fundamental change in how their tools work, since logs would cease to be a separate data type and would need to be accessed through spans.
+This option simplifies the telemetry pipeline architecture: we would only need to collect, store, and query traces. However, this would require users to refactor their code to attach events to spans instead of outputting logs. Rather than continuing to output logs using a library, developers would need to write new code to create span events, which might look something like this:
 
-![](https://lh4.googleusercontent.com/fDyB5KHHSQUgBqnItj9e-7PDxm0hL-Fa9N9IvwAVBxJHrXVCOrjK3VYogLRo0ViyKV2GyYWVXSNHh8bko8SXzUVlMvV6-hwbNePxXwJXMPJe53QuLdsLYmRsihMuw--eyyWyVA8G)
+<img src="/architecture/Log-and-Span-Instrumentation.jpg" />
+
+For engineers used to working with logs, this would be a fundamental change in their debugging flow, because the data they’re used to accessing from logs would now be accessed from spans. Spans are a distinct data type that require learning a new set of tools to use, which would be a significant learning curve. Additionally, developers would need to make code changes everywhere they currently use logging, which would be a time-consuming and tedious process.
 
 ##### Inject Context into Logs
 
-Another option to achieve correlation by execution context is to inject trace context into existing logs. This means accessing the trace ID and span ID and appending it as metadata to each log.
+Another option to achieve correlation by execution context is to inject trace context into existing logs. This means accessing the trace ID and span ID and appending it as metadata to each log. For example, a JSON log that starts like this:
 
-![](https://lh3.googleusercontent.com/scwL8SG7HSCJgSPlqgRWA8DKLfSpybA26JbptmWvKnWah6IJu5GcGM4ZmxnHHbfIYL9CsdxQbQ-sCGZ2A_rqheDNiztzZGfIB4bBCadlYHgkWK-iYsV4xajD3Uw0P4lsh6JTJDw6)
+<img src="/code/log-before-injection.png" />
 
-The pro of this approach is that it keeps existing logs intact, only adding the execution context. This correlation can also be achieved without fundamentally changing the workflow of engineers who are used to logs. This has the downside of making the telemetry pipeline more complex since the two data types need to be processed, stored, and queried separately.
+Would look something like this after trace context is injected:
 
-Since our design goals included making minimal changes to existing code, we decided to inject trace context into logs instead of using span events.
+<img src="/code/log-after-injection.png" />
 
-One option to implement this was to create a log appender library that extends popular logging libraries and injects the trace context. However, we were able to take advantage of the Open Telemetry auto-instrumentation package, which is configured to instrument many popular logging libraries by injecting trace context directly into the logs produced by those libraries.
+This approach has the downside of making the telemetry pipeline more complex, since traces and logs need to be processed, stored, and queried separately. But the upside of this approach is that it keeps existing logs intact, only adding the execution context. Also, this correlation can be achieved without fundamentally changing the workflow of engineers who are used to logs. Since we wanted to minimize changes to existing code, we decided to inject trace context into logs instead of using span events.
 
-In the presentation phase of the pipeline, the ability to correlate between logs and traces was a major consideration. Although the data needed for correlation was added in the emit stage, we now needed to leverage that data to move between logs and traces in the UI. This was a major factor in choosing Grafana, because of their support for this type of correlation. Hypha configures Grafana to link between logs and traces.
+One option to implement trace context injection was to create a custom library that extends popular logging libraries and injects the trace context. However, we were able to take advantage of the Open Telemetry auto-instrumentation package, which is configured to instrument many popular logging libraries by injecting trace context directly into the logs produced by those libraries.
 
-### 8.2 Deployment
+<img src="/architecture/Hypha-Instrumentation-Correlation.jpg" />
+
+In the presentation phase of the pipeline, the ability to correlate logs and traces visually was also a major consideration. Although the data needed for correlation was added in the emit stage, we now needed to leverage that data so that users could move between logs and traces in the UI. This was a major factor in choosing Grafana, which supports the functionality needed to transform correlated telemetry data to visual interaction.
+
+### 9.2 Deploying to ECS & Configuring For Production
 
 One of our primary design goals was for Hypha to be easy to deploy. To meet this goal, Hypha needed to be platform agnostic, scalable and automated as much as possible.
 
-Early on, we chose to containerize Hypha’s backend components using Docker and Docker Compose.This makes Hypha easy to manage and deploy across many environments. Furthermore, Docker integrates well with several popular cloud platforms, making it easier for developers to use managed cloud container services in their deployment.
+#### Platform Agnostic
 
-We started by making sure developers could easily deploy Hypha’s backend locally. This uses simple Docker Compose commands to run and connect Hypha’s components. From there, we wanted to give developers an easy way to deploy our backend to a cloud environment. But first, we needed to ensure that Hypha’s services were scalable to handle production-level data.
+Early on, we chose to containerize Hypha’s backend components using Docker and Docker Compose. This makes Hypha easy to manage and deploy across many environments. Furthermore, Docker integrates well with several popular cloud platforms, simplifying deployment to managed cloud container services.
 
-Both Loki and Jaeger can run as “all-in-one” configurations, where read, write, storage and visualization are run in a single container. This is fine for local development, but we wanted a solution that would allow these services to scale at a production level. We opted to separate concerns so that read, write, and storage are separate services running as individual containers. Compared to the “all-in-one” deployment configuration, this allows for higher availability and the flexibility to independently scale nodes as needed. For example, the Loki configuration can now scale to ingest several TBs of logs per day, whereas previously, it was limited to approximately 100GB per day (reference[here](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode)).
+<img src="/architecture/Hypha-Cloud-Agnostic.jpg" />
 
-![](https://lh5.googleusercontent.com/tOrGBb_soIJWndqbc2310s2NtWAmr6dj7bUDul7V67QisHbvKPs-WxoHXYneTUibayd02ieTnevYZ2RV-ey_oNBy1Dfz-43sRjYQsqgOCEAdNX4NUkHSpKud9gHR853qSpnytUMA)![](https://lh5.googleusercontent.com/L8tdr1zet9l2nOFPdwnErMHSmNp_CmMOKx8FTii4tG0RIL_rxdGI-I4zNuN9CXe-Va_CX2HqoRPAptjTvjW71BWXn7LCK1XwozCdRGaSVHKaYPvOxuo9490WlSiyg838hMjpbJiJ)
+To start, we made sure developers could easily deploy Hypha’s backend locally, using simple Docker Compose commands to run and connect Hypha’s components. From there, we wanted to give developers an easy way to deploy our backend to a cloud environment. But first, we needed to ensure that Hypha’s services were scalable to handle production-level data.
 
-&lt; placeholder visual. intention is to show more detailed zoom-in of Loki and Jaeger configurations >
+#### Scalable
 
-With Hypha’s components ready to scale, we began exploring options for cloud deployment. We chose AWS Elastic Container Service, a popular platform that integrates well with Docker Compose. ECS can be configured to run on user-managed EC2 instances or use AWS Fargate, a serverless option for running containers in the cloud. While deploying to EC2 instances could potentially have some cost-benefit for users of Hypha, this would also come with manual management of these EC2 instances. Users would need to ensure the ECS cluster has enough compute resources as well as stay on top of security updates. We chose to use Fargate since there is no infrastructure to monitor or maintain.
+Both Loki and Jaeger can run as “all-in-one" configurations, where a single binary handles read, write, storage and visualization responsibilities. This is fine for local development, but we wanted a solution that would allow these services to scale at a production level.
 
-## 9. Hypha Installation & Set Up
+<img src="/architecture/Hypha-Ship-Scalable.jpg" />
+
+We opted to separate read, write, and storage concerns into three services running as individual containers. Compared to the “all-in-one" deployment configuration, this allows for higher availability and the flexibility to independently scale nodes as needed. For example, the Loki configuration can now scale to ingest several TBs of logs per day, whereas previously, it was limited to approximately 100GB per day (reference[here](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode)).
+
+With Hypha’s components ready to scale, we began exploring options for cloud deployment. We chose AWS Elastic Container Service, a popular platform that integrates well with Docker Compose. It manages many aspects of containerized applications, such as network communication and resource scaling.
+
+<img src="/architecture/Hypha-Architecture-Fargate.jpg" />
+
+ECS can be configured to run on user-managed AWS EC2 instances or via AWS Fargate, a managed serverless solution for running containers in the cloud. While deploying to EC2 has some potential advantages around price optimization, it also requires manual management of these EC2 instances. Hypha users would need to ensure the ECS cluster has enough compute resources as well as stay on top of security updates. We chose to use Fargate because it runs and manages infrastructure and automatically scales according to the resources required.
+
+## 10. Using Hypha
 
 There are two stages to setting up Hypha:
 
 1. Deploy the Hypha backend infrastructure
 2. Setup the instrumentation and agent for each service
 
-### 9.1 Deploying the Hypha Backend
+### 10.1 Deploying the Hypha Backend
 
-We provide the options to deploy locally, to a VPS, or to AWS ECS. To deploy Hypha’s backend locally or directly on a server, clone the Hypha Backend repository, and run \`docker compose up\`.
+We provide the options to deploy locally, to a VPS, or to AWS ECS.
+
+To deploy Hypha’s backend locally or directly on a VPS, clone the Hypha Backend repository, and run `docker compose -f local-compose.yml up`.
 
 ECS deployment requires AWS CLI to be set up with the credentials for the account you intend to deploy Hypha to. This also requires Docker Desktop (Mac/Windows) or Docker Compose CLI (Linux).
 
-Hypha leverages Docker’s ECS integration to convert a Docker Compose file to a CloudFormation template. This CloudFormation template is then used to configure and deploy Hypha’s backend to ECS on Fargate. This deployment can be done in three easy steps:
+Hypha leverages Docker’s ECS integration to convert a Docker Compose file to a CloudFormation template. This CloudFormation template is then used to configure and deploy Hypha’s backend to ECS on Fargate. Deployment to AWS ECS can be done in three easy steps:
 
 1. Create an ECS context
 2. Switch to that context
 3. Compose up
 
-![](https://lh3.googleusercontent.com/u9qt0JcJ48a3CCzfjCUiBOvIe4l_wSTCwNySOLePawVNv94C3xYAbgGZwwRXLG3egu6nZo0BhIo5ZBx9P_8kpaXFcrn_f_8ys554G1YEcll2qS875PVuH6VRquGO-kCE_vrWK3kF)
+Once the deployment processes are complete, retrieve your gateway collector and Hypha UI endpoints by running:
 
-Once the deployment processes complete, retrieve your gateway collector and Hypha UI endpoints by running:
+<img src="/code/get-endpoints.png" />
 
-```
-bash get-endpoints.sh
-```
-
-### 9.2 Instrumentation & Agent Setup
+### 10.2 Setup Instrumentation & Agent
 
 #### Instrumentation
 
@@ -404,45 +470,37 @@ Once you deploy the Hypha backend, you will need to set up the instrumentation a
 
 In your application directory, download the Hypha instrumentation file:
 
-```
-curl -O https://raw.githubusercontent.com/Team-Hypha/hypha-agent/main/tracing.js
-```
+<img src="/code/download-tracing.png" />
 
 Install dependencies for OpenTelemetry instrumentation:
 
-```
-npm install @grpc/grpc-js @opentelemetry/api @opentelemetry/auto-instrumentations-node @opentelemetry/exporter-trace-otlp-grpc @opentelemetry/sdk-node
-```
+<img src="/code/install-instrumentation-libraries.png" />
 
 Then restart your Node application to include the instrumentation:
 
-```
-node --require tracing.js <applicationfile>.js
-```
+<img src="/code/restart-application.png" />
 
-#### Set up Hypha Agent
+##### Set up Hypha Agent
 
 Download the install script:
 
-```
-curl -O https://raw.githubusercontent.com/Team-Hypha/hypha-agent/main/install.sh
-```
+<img src="/code/download-agent-install.png" />
 
-Then execute it, passing in three arguments:
+<img src="/code/install-and-start-agent.png" />
 
-```
-bash install.sh <service_name> <gateway_collector_endpoint> <log_file_path>
-```
+## 11. Future Work
 
-And that’s Hypha! We’re proud of the work we’ve done, and we believe Hypha provides a great observability solution, but we’re also excited about options for expanding its functionality. Here are some of the features we’d like to implement in future iterations:
+And that’s Hypha! We’re proud of the work we’ve done. We believe Hypha provides a great observability solution, but we’re also excited about options for expanding its functionality. Here are some of the features we’d like to implement in future iterations:
 
 - Add instrumentation support for more languages (Go, Python, Ruby)
 - Add support for additional logging libraries and formats
 - Containerize the Hypha Agent to support more deployment options such as Kubernetes
+- Automate configuring TLS certificates for Hypha backend endpoints
 
 ## References
 
-1. [DTIP](Distributed Tracing In Practice, page 237)
+1. [DTIP] (Distributed Tracing In Practice, page 237)
 2. [TY](https://thenewstack.io/opentelemetry-in-go-its-all-about-context/)
-3. [ST](Jamie Riedesel in her book*Software Telemetry*)
-4. **…need to fill in more citations**
+3. [ST] Jamie Riedesel in her book _Software Telemetry_
+4. [LS](https://opentelemetry.lightstep.com/core-concepts/context-propagation/)
+5. _…need to fill in more citations_
