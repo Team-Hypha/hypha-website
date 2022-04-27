@@ -134,7 +134,7 @@ This idea of passing an ID along to each component in a transaction has a name -
 
 Let’s take a moment to understand how logs fall short when debugging a distributed system - even in a system that has log aggregation and context propagation. Recall that logs capture details about a point in time. For instance, imagine that Amy gets all the logs for a single transaction:
 
-<img src="/storyline/lots_of_logs.png" />
+<img src="/storyline/lots_of_logs.png" noBackground={true} big={true} />
 
 While these logs contain information needed to debug an issue, it is difficult to use them to get a high-level picture about things like latency and how a request flowed through a system. Amy and other senior engineers have enough experience and historical context that they often have an intuition for which logs will be most interesting. But newer engineers lack this context and it can take a long time to find the source of the problem. They want a solution that will help everyone get context quickly.
 
@@ -389,7 +389,7 @@ One option for correlating by the execution context involves replacing logs with
 
 This option simplifies the telemetry pipeline architecture: we would only need to collect, store, and query traces. However, this would require users to refactor their code to attach events to spans instead of outputting logs. Rather than continuing to output logs using a library, developers would need to write new code to create span events, which might look something like this:
 
-<img src="/architecture/Log-and-Span-Instrumentation.jpg" />
+<img src="/architecture/Log-and-Span-Instrumentation.jpg" noBackground={true} />
 
 For engineers used to working with logs, this would be a fundamental change in their debugging flow, because the data they’re used to accessing from logs would now be accessed from spans. Spans are a distinct data type that require learning a new set of tools to use, which would be a significant learning curve. Additionally, developers would need to make code changes everywhere they currently use logging, which would be a time-consuming and tedious process.
 
