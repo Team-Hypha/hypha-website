@@ -56,7 +56,7 @@
 }
 
 .case-study li {
-  font-size: 21px;
+  font-size: 18px;
   list-style-position: outside;
 }
 
@@ -112,7 +112,7 @@ h5 {
 }
 
 p {
-  font-size: 21px;
+  font-size: 18px;
   margin-top: 29px;
 }
 
@@ -142,7 +142,6 @@ code {
   padding: 2px;
   border: #b9c1cb solid 1px;
 } */
-
 
 @media screen and (max-width: 1700px) {
   .case-study__grid {
