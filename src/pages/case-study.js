@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Layout from '../components/layout'
+import { Helmet } from 'react-helmet';
 import TableOfContents from '../components/tableOfContents'
 import { MDXProvider } from '@mdx-js/react'
 import CaseStudy from '../components/caseStudy.mdx'
@@ -8,6 +9,9 @@ import './case-study.css'
 const CaseStudyPage = ({ location }) => {
   return (
     <Layout>
+      <Helmet>
+        <title>Hypha Case Study</title>
+      </Helmet>
       <div className="case-study__grid">
         <div>
           <TableOfContents location={location} />

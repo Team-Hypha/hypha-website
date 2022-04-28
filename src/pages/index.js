@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Layout from '../components/layout'
+import { Helmet } from 'react-helmet'
 import { Link } from 'gatsby'
 import { StaticImage } from 'gatsby-plugin-image'
 import './index.css'
@@ -7,6 +8,9 @@ import './index.css'
 const IndexPage = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Hypha</title>
+      </Helmet>
       <div className="home-page">
         <div className="section header">
           <div className="container">
@@ -24,8 +28,8 @@ const IndexPage = () => {
                 </Link>
               </div>
               <StaticImage
-                src="../images/screenshots/trace-and-logs.png"
-                alt="Screenshot of Hypha's interface with a trace and logs correlated."
+                src="../images/architecture/Hypha-Architecture.jpg"
+                alt="Hypha architecture diagram"
                 placeholder="blurred"
                 loading="eager"
                 className="screenshot"
@@ -66,8 +70,8 @@ const IndexPage = () => {
                     </div>
                     <div className="tab-image-wrap">
                       <StaticImage
-                        src="../images/architecture/Hypha-Architecture.jpg"
-                        alt="Hypha architecture diagram"
+                        src="../images/screenshots/trace-and-logs.png"
+                        alt="Screenshot of Hypha's interface with a trace and logs correlated."
                         placeholder="blurred"
                         loading="eager"
                         imgClassName="side-image"

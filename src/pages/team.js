@@ -1,11 +1,15 @@
 import * as React from 'react'
 import Layout from '../components/layout'
+import { Helmet } from 'react-helmet'
 import { StaticImage } from 'gatsby-plugin-image'
 import './team.css'
 
 const TeamPage = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Hypha Team</title>
+      </Helmet>
       <div className="team-page">
         <div className="section header" id="team-header">
           <div className="container">

@@ -24,7 +24,7 @@ Hypha deploys an end-to-end telemetry pipeline that sets up distributed tracing,
 
 ## 2. Observability
 
-In software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we will use the following definition: **Observability is “a measure of how well internal states of a system can be inferred from knowledge of its external outputs."**
+In software engineering, there are many interpretations and approaches to the concept of observability. For consistency, we will use the following definition: **Observability is “a measure of how well internal states of a system can be inferred from knowledge of its external outputs."** <a href="/case-study#cite-note-observability-engineering"><sup>[1]</sup></a>
 
 At a fundamental level, software systems boil down to inputs and outputs. The computer takes an input, runs the software, and produces an output. But, what if the output is incorrect or the system is unresponsive? How can we inspect the internal state to solve the issue?
 
@@ -32,7 +32,7 @@ At a fundamental level, software systems boil down to inputs and outputs. The co
 
 ### 2.1 Telemetry
 
-The answer is that we must output additional data that tells us about the internal state of the system. The data output for this purpose is called **_telemetry_**, and code written to output telemetry is called **_instrumentation._** There are different types of telemetry, with the three most common being logs, metrics, and traces. These are often called the “Three Pillars" of observability.
+The answer is that we must output additional data that tells us about the internal state of the system. The data output for this purpose is called **_telemetry_**, and code written to output telemetry is called **_instrumentation._** There are different types of telemetry, with the three most common being logs, metrics, and traces. These are often called the “Three Pillars" of observability. <a href="/case-study#cite-note-distributed-systems"><sup>[2]</sup></a>
 
 <img src="/observability/Observability_Solution.GIF" />
 
@@ -40,7 +40,7 @@ The answer is that we must output additional data that tells us about the intern
 
 Metrics are a numerical measure that provides a snapshot of some aspect of a system’s behavior during a certain period of time. For instance, this could be requests per second, CPU or memory usage over time, or errors per minute. This data is usually visualized in a dashboard, providing a quick overview of a system’s health.
 
-<img src="/observability/Observability_new-relic-metrics.png" />
+<img src="/observability/Observability_new-relic-metrics.png" caption="Metrics dashboard from New Relic" />
 
 #### Logs
 
@@ -88,7 +88,7 @@ During development, Amy can add some logging whenever she wants to output some i
 
 In production, several things change. If an issue arises, any member of the team needs to be able access and understand the recent logs. Logs must be persisted and be output in a useful and consistent format. In addition, the time it takes to get new logging into the code has significantly increased. Amy can no longer decide she would like to log the value of a certain variable and see it on her screen a few seconds later. It is important that they make sure their code is well instrumented before being deployed, otherwise they might find they are missing key details needed to understand the state of their application.
 
-Amy has instrumented her code to output logs to a file on the server. When she receives a report of an error, Amy SSHs into the server and reads the log file. She can use Unix tools like \`grep\` to search the logs or \`tail\` to view the most recent logs. The Labra Cadabra team invests time and effort in making sure they are logging useful information. This investment allows them to effectively debug issues when they arise.
+Amy has instrumented her code to output logs to a file on the server. When she receives a report of an error, Amy SSHs into the server and reads the log file. She can use Unix tools like `grep` to search the logs or `tail` to view the most recent logs. The Labra Cadabra team invests time and effort in making sure they are logging useful information. This investment allows them to effectively debug issues when they arise.
 
 <img src="/storyline/Storyline_Using-Logs-Production.GIF" />
 
@@ -120,7 +120,7 @@ Amy would like to see all the logs that are part of the same transaction, becaus
 
 <img src="/storyline/Search_Logs-Has-vs-Wants.GIF" />
 
-However, without a single piece of correlating information, it can be really difficult to find these. She could use things like userID or timestamp to narrow down the logs, but these won’t be specific enough to show the logs belonging to a single request’s journey: the same userID could belong to many requests, and many requests could occur in the same period of time.
+However, without a single piece of correlating information, it can be really difficult to find these. She could use things like userID or timestamp to narrow down the logs, but these won’t be specific enough to show the logs belonging to a single request’s journey: the same userID could belong to many requests, and many requests could occur in the same period of time. <a class="cite-note" href="/case-study#cite-note-ted-young-blog">[3]</a>
 
 <img src="/storyline/Search_Logs-Adhoc-Filter.GIF" />
 
@@ -158,7 +158,7 @@ To achieve this they will need a system that not only collects and correlates al
 
 ## 4. Telemetry Pipeline
 
-Let’s get an overview of the major stages that compose a telemetry pipeline to have a better idea of what’s involved before moving forward. We will use the model outlined by Jamie Riedesel in her book*Software Telemetry*, \[ST] which describes three major phases: Emitting, shipping, and presentation.
+Let’s get an overview of the major stages that compose a telemetry pipeline to have a better idea of what’s involved before moving forward. We will use the model outlined by Jamie Riedesel in her book _Software Telemetry_, \[ST] which describes three major phases: Emitting, shipping, and presentation.
 
 <img src="/pipeline/Hypha-Pipeline-Icons.jpg" noBackground={true} small={true} />
 
@@ -240,11 +240,11 @@ The home page visualizes error metrics by service, allowing users to quickly ass
 
 Users can click into their logs to see expanded detail, and this expanded view includes a “Jaeger'' button that allows them to jump to the trace associated with that log.
 
-<img src="/hypha/log-to-trace.gif" big={true} />
+<img src="/hypha/log-to-trace.gif" />
 
 The trace overview displays a waterfall chart representing the trace and its spans. Users can click into a span to see its expanded attributes along with a “Logs for this span" button.
 
-<img src="/hypha/trace-to-log.gif" big={true} />
+<img src="/hypha/trace-to-log.gif" />
 
 Clicking this button opens a side window that displays the logs associated with that span. This provides users with immediate access to the detailed information provided by relevant logs, making it easier to continue investigating and debugging.
 
@@ -429,7 +429,7 @@ Both Loki and Jaeger can run as “all-in-one" configurations, where a single bi
 
 <img src="/architecture/Hypha-Ship-Scalable.jpg" big={true} />
 
-We opted to separate read, write, and storage concerns into three services running as individual containers. Compared to the “all-in-one" deployment configuration, this allows for higher availability and the flexibility to independently scale nodes as needed. For example, the Loki configuration can now scale to ingest several TBs of logs per day, whereas previously, it was limited to approximately 100GB per day (reference[here](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode)).
+We opted to separate read, write, and storage concerns into three services running as individual containers. Compared to the “all-in-one" deployment configuration, this allows for higher availability and the flexibility to independently scale nodes as needed. For example, the Loki configuration can now scale to ingest several TBs of logs per day, whereas previously, it was limited to approximately 100GB per day (reference[here] (https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode)).
 
 With Hypha’s components ready to scale, we began exploring options for cloud deployment. We chose AWS Elastic Container Service, a popular platform that integrates well with Docker Compose. It manages many aspects of containerized applications, such as network communication and resource scaling.
 
@@ -490,7 +490,7 @@ Download the install script:
 
 ## 10. Future Work
 
-And that’s Hypha! We’re proud of the work we’ve done. We believe Hypha provides a great observability solution, but we’re also excited about options for expanding its functionality. Here are some of the features we’d like to implement in future iterations:
+We believe Hypha provides a great observability solution, but we’re also excited about options for expanding its functionality. Here are some of the features we’d like to implement in future iterations:
 
 - Add instrumentation support for more languages (Go, Python, Ruby)
 - Add support for additional logging libraries and formats
@@ -499,8 +499,17 @@ And that’s Hypha! We’re proud of the work we’ve done. We believe Hypha pro
 
 ## References
 
-1. [DTIP] (Distributed Tracing In Practice, page 237)
-2. [TY](https://thenewstack.io/opentelemetry-in-go-its-all-about-context/)
-3. [ST] Jamie Riedesel in her book _Software Telemetry_
-4. [LS](https://opentelemetry.lightstep.com/core-concepts/context-propagation/)
-5. _…need to fill in more citations_
+1. <p class="cite-note" id="cite-note-observability-engineering">
+     Charity Majors et al., <i>Observability Engineering</i>
+   </p>
+2. <p class="cite-note" id="cite-note-distributed-systems">
+     Cindy Sridharan, <i>Distributed Systems Observability</i>
+   </p>
+3. <p class="cite-note" id="cite-note-ted-young-blog">
+     Ted Young, <a href="">"Getting Started with OpenTelemetry for
+     Go"](https://thenewstack.io/opentelemetry-in-go-its-all-about-context/)
+   </p>
+4. <p id="cite-note-">Distributed Tracing In Practice, page 237</p>
+5. [ST] Jamie Riedesel in her book _Software Telemetry_
+6. [LS](https://opentelemetry.lightstep.com/core-concepts/context-propagation/)
+7. _…need to fill in more citations_
