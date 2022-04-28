@@ -237,15 +237,15 @@ A tradeoff is that Hypha isn’t as feature-rich as the SaaS solutions. But this
 
 The home page visualizes error metrics by service, allowing users to quickly assess the health of their system and start investigating problematic logs.
 
-<img src="/hypha/errors-dashboard.png" className="big-image" big={true} />
+<img src="/hypha/errors-dashboard.png" big={true} />
 
 Users can click into their logs to see expanded detail, and this expanded view includes a “Jaeger'' button that allows them to jump to the trace associated with that log.
 
-<img src="/hypha/log-to-trace.gif" />
+<img src="/hypha/log-to-trace.gif" big={true} />
 
 The trace overview displays a waterfall chart representing the trace and its spans. Users can click into a span to see its expanded attributes along with a “Logs for this span" button.
 
-<img src="/hypha/trace-to-log.gif" />
+<img src="/hypha/trace-to-log.gif" big={true} />
 
 Clicking this button opens a side window that displays the logs associated with that span. This provides users with immediate access to the detailed information provided by relevant logs, making it easier to continue investigating and debugging.
 
@@ -500,14 +500,40 @@ We believe Hypha provides a great observability solution, but we’re also excit
 
 ## References
 
-1. <p class="cite-note" id="cite-note-observability-engineering">Charity Majors et al., <i>Observability Engineering</i></p>
-2. <p class="cite-note" id="cite-note-distributed-systems">Cindy Sridharan, <i>Distributed Systems Observability</i></p>
-3. <p class="cite-note" id="cite-note-ted-young-blog">Ted Young, <a href="https://thenewstack.io/opentelemetry-in-go-its-all-about-context/">Getting Started with OpenTelemetry for Go</a></p>
-4. <p class="cite-note" id="cite-note-lightstep-context">Lightstep, Inc., <a href="https://opentelemetry.lightstep.com/core-concepts/context-propagation/">OpenTelemetry Core Concepts: Context Propagation</a></p>
-5. <p class="cite-note" id="cite-note-tracing-in-practice">Austin Parker et al., <i>Distributed Tracing In Practice</i></p>
-6. <p class="cite-note" id="cite-note-software-telemetry">Jamie Riedesel, <i>Software Telemetry</i></p>
-7. <p class="cite-note" id="cite-note-otel-log-spec">Open Telemetry, <a href="https://opentelemetry.io/docs/reference/specification/logs/overview/">Open Telemetry Logging Overview</a></p>
-8. <p class="cite-note" id="cite-note-loki-deployment">Grafana Labs, <a href="https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode">Grafana Loki - Deployment Modes</a></p>
+1. <p class="cite-note" id="cite-note-observability-engineering">
+     Charity Majors et al., <i>Observability Engineering</i>
+   </p>
+2. <p class="cite-note" id="cite-note-distributed-systems">
+     Cindy Sridharan, <i>Distributed Systems Observability</i>
+   </p>
+3. <p class="cite-note" id="cite-note-ted-young-blog">
+     Ted Young,{' '}
+     <a href="https://thenewstack.io/opentelemetry-in-go-its-all-about-context/">
+       Getting Started with OpenTelemetry for Go
+     </a>
+   </p>
+4. <p class="cite-note" id="cite-note-lightstep-context">
+     Lightstep, Inc.,{' '}
+     <a href="https://opentelemetry.lightstep.com/core-concepts/context-propagation/">
+       OpenTelemetry Core Concepts: Context Propagation
+     </a>
+   </p>
+5. <p class="cite-note" id="cite-note-tracing-in-practice">
+     Austin Parker et al., <i>Distributed Tracing In Practice</i>
+   </p>
+6. <p class="cite-note" id="cite-note-software-telemetry">
+     Jamie Riedesel, <i>Software Telemetry</i>
+   </p>
+7. <p class="cite-note" id="cite-note-otel-log-spec">
+     Open Telemetry,{' '}
+     <a href="https://opentelemetry.io/docs/reference/specification/logs/overview/">Open Telemetry Logging Overview</a>
+   </p>
+8. <p class="cite-note" id="cite-note-loki-deployment">
+     Grafana Labs,{' '}
+     <a href="https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode">
+       Grafana Loki - Deployment Modes
+     </a>
+   </p>
 
 ## Team
 
