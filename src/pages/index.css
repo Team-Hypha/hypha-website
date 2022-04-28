@@ -34,6 +34,7 @@
 }
 
 .home-page #spin {
+  padding: 0 2px;
   background-image: linear-gradient(111deg, var(--black), var(--dark-blue));
   background-clip: text;
   -webkit-background-clip: text;
@@ -317,6 +318,7 @@
   display: inline-block;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
+  border: #b9c1cb solid 1px;
 }
 
 .home-page .w-inline-block {
@@ -640,4 +642,5 @@
   width: 100%;
   height: auto;
   max-height: 540px;
+  border: #b9c1cb solid 1px;
 }
