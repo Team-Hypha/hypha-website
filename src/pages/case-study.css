@@ -57,11 +57,12 @@
 
 .case-study li {
   font-size: 21px;
-  list-style-position: inside;
+  list-style-position: outside;
 }
 
 .case-study ul,
 .case-study ol {
+  padding-left: 35px;
   margin-top: 29px;
 }
 
@@ -136,6 +137,11 @@ code {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+/* .cite-note:target {
+  padding: 2px;
+  border: #b9c1cb solid 1px;
+} */
 
 
 @media screen and (max-width: 1700px) {

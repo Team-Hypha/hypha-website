@@ -52,6 +52,9 @@ main {
 .nav__list a {
   color: var(--white);
   text-decoration: none;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
