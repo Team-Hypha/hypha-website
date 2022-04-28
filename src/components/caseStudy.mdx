@@ -120,7 +120,7 @@ Amy would like to see all the logs that are part of the same transaction, becaus
 
 <img src="/storyline/Search_Logs-Has-vs-Wants.GIF" />
 
-However, without a single piece of correlating information, it can be really difficult to find these. She could use things like userID or timestamp to narrow down the logs, but these won’t be specific enough to show the logs belonging to a single request’s journey: the same userID could belong to many requests, and many requests could occur in the same period of time. <a class="cite-note" href="/case-study#cite-note-ted-young-blog">[3]</a>
+However, without a single piece of correlating information, it can be really difficult to find these. She could use things like userID or timestamp to narrow down the logs, but these won’t be specific enough to show the logs belonging to a single request’s journey: the same userID could belong to many requests, and many requests could occur in the same period of time. <a class="cite-ref" href="/case-study#cite-note-ted-young-blog"><sup>[3]</sup></a>
 
 <img src="/storyline/Search_Logs-Adhoc-Filter.GIF" />
 
@@ -128,7 +128,7 @@ What Amy and her team need is a single ID that can be attached to every log that
 
 <img src="/storyline/Search_Logs-Transaction-Filter.GIF" />
 
-This idea of passing an ID along to each component in a transaction has a name - context propagation. <a href="/case-study#cite-note-lightstep-context"><sup>[4]</sup></a> In her research, Amy finds that properly implementing context propagation is difficult. However, she also discovers that context propagation is one of the primary problems solved by distributed tracing. Amy could use the context propagation provided by tracing to connect all of their logs from a single transaction. In addition, distributed tracing will help give them another dimension of observability that they can’t get from logs alone.
+This idea of passing an ID along to each component in a transaction has a name - context propagation. <a class="cite-ref" href="/case-study#cite-note-lightstep-context"><sup>[4]</sup></a> In her research, Amy finds that properly implementing context propagation is difficult. However, she also discovers that context propagation is one of the primary problems solved by distributed tracing. Amy could use the context propagation provided by tracing to connect all of their logs from a single transaction. In addition, distributed tracing will help give them another dimension of observability that they can’t get from logs alone.
 
 #### Challenge 3: Getting a high-level view of a request
 
@@ -138,7 +138,7 @@ Let’s take a moment to understand how logs fall short when debugging a distrib
 
 While these logs contain information needed to debug an issue, it is difficult to use them to get a high-level picture about things like latency and how a request flowed through a system. Amy and other senior engineers have enough experience and historical context that they often have an intuition for which logs will be most interesting. But newer engineers lack this context and it can take a long time to find the source of the problem. They want a solution that will help everyone get context quickly.
 
-Fortunately for Amy and her team, distributed tracing was developed to address this lack of context. A waterfall visualization of a trace provides a quick and intuitive way to understand how a single request moved through the system, including the time taken in each service. This makes it easy for anyone to quickly get context for how the system works and to quickly identify where problems are occurring.
+Fortunately for Amy and her team, distributed tracing was developed to address this lack of context. A waterfall visualization of a trace provides a quick and intuitive way to understand how a single request moved through the system, including the time taken in each service. This makes it easy for anyone to quickly get context for how the system works and to quickly identify where problems are occurring. <a class="cite-ref" href="/case-study#cite-note-tracing-in-practice"><sup>[5]</sup></a>
 
 For instance, if Amy gets complaints about a delayed request to the cart service, she could browse traces that touch the cart service. She takes a look, and most of the recent traces look something like this.
 
@@ -158,7 +158,7 @@ To achieve this they will need a system that not only collects and correlates al
 
 ## 4. Telemetry Pipeline
 
-Let’s get an overview of the major stages that compose a telemetry pipeline to have a better idea of what’s involved before moving forward. We will use the model outlined by Jamie Riedesel in her book _Software Telemetry_, \[ST] which describes three major phases: Emitting, shipping, and presentation.
+Let’s get an overview of the major stages that compose a telemetry pipeline to have a better idea of what’s involved before moving forward. We will use the model outlined by Jamie Riedesel in her book _Software Telemetry_, \[ST] which describes three major phases: Emitting, shipping, and presentation. <a class="cite-ref" href="/case-study#cite-note-software-telemetry"><sup>[6]</sup></a>
 
 <img src="/pipeline/Hypha-Pipeline-Icons.jpg" noBackground={true} small={true} />
 
@@ -361,7 +361,7 @@ The Hypha UI completes the final stage of our end-to-end telemetry pipeline.
 
 #### Types of Correlation
 
-One of the primary engineering decisions we needed to make was choosing the best way to correlate logs with traces. There are several different types of correlation we considered, each with its own tradeoffs.
+One of the primary engineering decisions we needed to make was choosing the best way to correlate logs with traces. There are several different types of correlation we considered, each with its own tradeoffs. <a class="cite-ref" href="/case-study#cite-note-otel-log-spec"><sup>[7]</sup></a>
 
 ##### Time
 
@@ -429,7 +429,7 @@ Both Loki and Jaeger can run as “all-in-one" configurations, where a single bi
 
 <img src="/architecture/Hypha-Ship-Scalable.jpg" big={true} />
 
-We opted to separate read, write, and storage concerns into three services running as individual containers. Compared to the “all-in-one" deployment configuration, this allows for higher availability and the flexibility to independently scale nodes as needed. For example, the Loki configuration can now scale to ingest several TBs of logs per day, whereas previously, it was limited to approximately 100GB per day (reference[here] (https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode)).
+We opted to separate read, write, and storage concerns into three services running as individual containers. Compared to the “all-in-one" deployment configuration, this allows for higher availability and the flexibility to independently scale nodes as needed. For example, the Loki configuration can now scale to ingest several TBs of logs per day, whereas previously, it was limited to approximately 100GB per day. <a class="cite-ref" href="/case-study#cite-note-loki-deployment"><sup>[8]</sup></a>
 
 With Hypha’s components ready to scale, we began exploring options for cloud deployment. We chose AWS Elastic Container Service, a popular platform that integrates well with Docker Compose. It manages many aspects of containerized applications, such as network communication and resource scaling.
 
@@ -499,17 +499,11 @@ We believe Hypha provides a great observability solution, but we’re also excit
 
 ## References
 
-1. <p class="cite-note" id="cite-note-observability-engineering">
-     Charity Majors et al., <i>Observability Engineering</i>
-   </p>
-2. <p class="cite-note" id="cite-note-distributed-systems">
-     Cindy Sridharan, <i>Distributed Systems Observability</i>
-   </p>
-3. <p class="cite-note" id="cite-note-ted-young-blog">
-     Ted Young, <a href="https://thenewstack.io/opentelemetry-in-go-its-all-about-context/">Getting Started with OpenTelemetry for Go</a></p>
-4. <p class="cite-note" id="cite-note-lightstep-context">
-     Lightstep, Inc., <a href="https://opentelemetry.lightstep.com/core-concepts/context-propagation/">https://opentelemetry.lightstep.com/core-concepts/context-propagation/</a>
-    </p>
-4. <p id="cite-note-">Distributed Tracing In Practice, page 237</p>
-5. [ST] Jamie Riedesel in her book _Software Telemetry_
-7. _…need to fill in more citations_
+1. <p class="cite-note" id="cite-note-observability-engineering">Charity Majors et al., <i>Observability Engineering</i></p>
+2. <p class="cite-note" id="cite-note-distributed-systems">Cindy Sridharan, <i>Distributed Systems Observability</i></p>
+3. <p class="cite-note" id="cite-note-ted-young-blog">Ted Young, <a href="https://thenewstack.io/opentelemetry-in-go-its-all-about-context/">Getting Started with OpenTelemetry for Go</a></p>
+4. <p class="cite-note" id="cite-note-lightstep-context">Lightstep, Inc., <a href="https://opentelemetry.lightstep.com/core-concepts/context-propagation/">OpenTelemetry Core Concepts: Context Propagation</a></p>
+5. <p class="cite-note" id="cite-note-tracing-in-practice">Austin Parker et al., <i>Distributed Tracing In Practice</i></p>
+6. <p class="cite-note" id="cite-note-software-telemetry">Jamie Riedesel, <i>Software Telemetry</i></p>
+7. <p class="cite-note" id="cite-note-otel-log-spec">Open Telemetry, <a href="https://opentelemetry.io/docs/reference/specification/logs/overview/">Open Telemetry Logging Overview</a></p>
+8. <p class="cite-note" id="cite-note-loki-deployment">Grafana Labs, <a href="https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode">Grafana Loki - Deployment Modes</a></p>
