@@ -1,14 +1,12 @@
 import * as React from 'react'
 import Layout from '../components/layout'
-import { Helmet } from 'react-helmet'
+import Seo from '../components/seo'
 import Team from '../components/team'
 
 const TeamPage = () => {
   return (
     <Layout>
-      <Helmet>
-        <title>Hypha Team</title>
-      </Helmet>
+      <Seo title="Hypha Team" />
       <div className="team-page">
         <div className="section header" id="team-header">
           <div className="container">
