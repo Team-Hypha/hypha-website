@@ -178,7 +178,7 @@ export default function Team() {
                         </a>
                       </li>
                       <li>
-                        <a href="https://www.linkedin.com/in/joshua-keller-30888b3b/" target="_blank" rel="noreferrer">
+                        <a href="https://www.linkedin.com/in/josh-keller-dev/" target="_blank" rel="noreferrer">
                           <span className="team-member-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                               <path
