@@ -53,11 +53,11 @@ Logs are human-readable lines of text that provide specific detail about an even
 
 #### Traces
 
-Traces provide context for how a given request travels through the system and how different system components interact. Traces are a bit more complex than metrics and traces, so to illustrate, let’s start with an architecture diagram that shows connections between components of a system.
+Traces provide context for how a given request travels through the system and how different system components interact. Traces are a bit more complex than metrics and logs, so to illustrate, let’s start with an architecture diagram that shows connections between components of a system.
 
 <img src="/labra/Labra-Distributed.jpg" />
 
-Although we understand the connections between components of the system, we cannot see how a*specific request* travels through the system over time. To do this, we can use a distributed trace, visualized as a waterfall diagram:
+Although we understand the connections between components of the system, we cannot see how a _specific request_ travels through the system over time. To do this, we can use a distributed trace, visualized as a waterfall diagram:
 
 <img src="/labra/Basic-Trace-Diagram.jpg" />
 
@@ -159,7 +159,7 @@ To achieve this they will need a system that not only collects and correlates al
 
 ## 4. Telemetry Pipeline
 
-Let’s get an overview of the major stages that compose a telemetry pipeline to have a better idea of what’s involved before moving forward. We will use the model outlined by Jamie Riedesel in her book _Software Telemetry_, \[ST] which describes three major phases: Emitting, shipping, and presentation. <a class="cite-ref" href="/case-study#cite-note-software-telemetry"><sup>[6]</sup></a>
+Let’s get an overview of the major stages that compose a telemetry pipeline to have a better idea of what’s involved before moving forward. We will use the model outlined by Jamie Riedesel in her book _Software Telemetry_, which describes three major phases: Emitting, shipping, and presentation. <a class="cite-ref" href="/case-study#cite-note-software-telemetry"><sup>[6]</sup></a>
 
 <img src="/pipeline/Hypha-Pipeline-Icons.jpg" noBackground={true} small={true} />
 
