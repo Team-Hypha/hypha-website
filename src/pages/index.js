@@ -55,7 +55,7 @@ const IndexPage = () => {
                       >
                         Hypha deploys an end-to-end pipeline that sets up distributed tracing, aggregates your existing
                         logs, and correlates logs with traces. This facilitates a powerful debugging workflow using
-                        Hypha’s simple UI.
+                        Hypha's simple UI.
                       </p>
                       <a
                         href="https://github.com/Team-Hypha"
