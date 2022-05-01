@@ -38,7 +38,7 @@ export default function Team() {
                         </a>
                       </li>
                       <li>
-                        <a href="https://stephengontzes.io/" target="_blank" rel="noreferrer">
+                        <a href="https://stephengontzes.dev/" target="_blank" rel="noreferrer">
                           <span className="team-member-icon">
                             <svg
                               width="24"
