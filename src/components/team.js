@@ -96,7 +96,7 @@ export default function Team() {
                         </a>
                       </li>
                       <li>
-                        <a href="https://idkraut.github.io" target="_blank" rel="noreferrer">
+                        <a href="https://idkraut.dev" target="_blank" rel="noreferrer">
                           <span className="team-member-icon">
                             <svg
                               width="24"
