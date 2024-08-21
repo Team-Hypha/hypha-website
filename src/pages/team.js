@@ -14,8 +14,8 @@ const TeamPage = () => {
               <h1 className="h1 centered">The Team</h1>
             </div>
             <p className="intro-paragraph white-paragraph centered" id="team-paragraph">
-              Hypha was built by a remote team of software engineers. We're currently looking for our next
-              opportunities. Let's talk!
+              Hypha was built by a remote team of software engineers. We're always happy to talk, feel free to reach
+              out.
             </p>
           </div>
         </div>
